@@ -27,6 +27,9 @@ namespace WordsWithFriendsProject
             mSuccessWords = new List<WordResult_t>();
             mMatcher = new Matcher_t();
             mScorer = new Scorer_t();
+            mAlphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 
+                'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
+                's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
         }
 
         //-----------------------------------------------------------
@@ -104,15 +107,41 @@ namespace WordsWithFriendsProject
             )
         {
             string theCurrentWord;
-            while (mDictionary.HasMoreWords())
+            if (!mLetters.Contains('?'))
             {
-                theCurrentWord = mDictionary.GetNextWord();
-                if( mMatcher.Evaluate( theCurrentWord, mLetters ) )
+                while (mDictionary.HasMoreWords())
                 {
-                    mSuccessWords.Add( new WordResult_t( theCurrentWord, 
-                                                         mScorer.ScoreFirstWord(theCurrentWord)));
+                    theCurrentWord = mDictionary.GetNextWord();
+                    if (mMatcher.Evaluate(theCurrentWord, mLetters))
+                    {
+                        // TODO: don't add words twice
+                        mSuccessWords.Add(new WordResult_t(theCurrentWord,
+                                                           mScorer.ScoreFirstWord(theCurrentWord)));
+                    }
                 }
             }
+            else
+            {
+                FindMatchesWithBlank();
+            }
+            mDictionary.Reset();
+        }
+
+        private void
+        //-----------------------------------------------------------
+        FindMatchesWithBlank
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            mLetters.Remove('?');
+            foreach (char c in mAlphabet)
+            {
+                mLetters.Add(c);
+                FindMatches();
+                mLetters.Remove(c);
+            }
+            mLetters.Add('?');
         }
 
         private void
@@ -144,9 +173,9 @@ namespace WordsWithFriendsProject
         }
 
         private void
-            //-----------------------------------------------------------
+        //-----------------------------------------------------------
         SortResults
-            //-----------------------------------------------------------
+        //-----------------------------------------------------------
             (
             )
         {
@@ -155,7 +184,7 @@ namespace WordsWithFriendsProject
             int theCurrentIndex;
             List<WordResult_t> theLocalList = new List<WordResult_t>();
             
-            while( theLocalList.Count < 20 && mSuccessWords.Count() != 0 )
+            while( theLocalList.Count < scResultsLimit && mSuccessWords.Count() != 0 )
             {
                 theIndex = 0;
                 theHighestScore = 0;
@@ -180,12 +209,14 @@ namespace WordsWithFriendsProject
 
         private void
         //-----------------------------------------------------------
-        ResetDictionary
+        Reset
         //-----------------------------------------------------------
             (
             )
         {
-            mDictionary = new Dictionary_t();
+            mDictionary.Reset();
+            mLetters.Clear();
+            mSuccessWords.Clear();
         }
 
         //-----------------------------------------------------------
@@ -207,7 +238,7 @@ namespace WordsWithFriendsProject
             FindMatches();
             SortResults();
             DisplayResults();
-            ResetDictionary();
+            Reset();
         }
 
         //-----------------------------------------------------------
@@ -218,6 +249,7 @@ namespace WordsWithFriendsProject
         private List<WordResult_t> mSuccessWords;
         private Matcher_t mMatcher;
         private Scorer_t mScorer;
-        
+        private char[] mAlphabet;
+        const int scResultsLimit = 20;
     }
 }
