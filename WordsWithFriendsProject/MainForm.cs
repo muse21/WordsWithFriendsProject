@@ -69,34 +69,68 @@ namespace WordsWithFriendsProject
             (
             )
         {
+            char the1Result = scDefaultChar;
+            char the2Result = scDefaultChar;
+            char the3Result = scDefaultChar;
+            char the4Result = scDefaultChar;
+            char the5Result = scDefaultChar;
+            char the6Result = scDefaultChar;
+            char the7Result = scDefaultChar;
+
             if (mLetter1TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter1TextBox.Text));
+                the1Result = System.Convert.ToChar(mLetter1TextBox.Text);
             }
             if (mLetter2TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter2TextBox.Text));
+                the2Result = System.Convert.ToChar(mLetter2TextBox.Text);
             }
             if (mLetter3TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter3TextBox.Text));
+                the3Result = System.Convert.ToChar(mLetter3TextBox.Text);
             }
             if (mLetter4TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter4TextBox.Text));
+                the4Result = System.Convert.ToChar(mLetter4TextBox.Text);
             }
             if (mLetter5TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter5TextBox.Text));
+                the5Result = System.Convert.ToChar(mLetter5TextBox.Text);
             }
             if (mLetter6TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter6TextBox.Text));
+                the6Result = System.Convert.ToChar(mLetter6TextBox.Text);
             }
             if (mLetter7TextBox.Text.Trim().Length != 0)
             {
-                mLetters.Add(System.Convert.ToChar(mLetter7TextBox.Text));
+                the7Result = System.Convert.ToChar(mLetter7TextBox.Text);
             }
+
+            List<char> theTemp = new List<char>(new char[] {the1Result, the2Result, 
+                the3Result, the4Result, the5Result, the6Result, the7Result});
+         
+            if(ThereAreNotMoreThanOneBlankTiles(theTemp))
+            {
+                mLetters = new List<char>( new char[] {the1Result, the2Result, 
+                the3Result, the4Result, the5Result, the6Result, the7Result});
+            }
+        }
+
+        private bool
+        ThereAreNotMoreThanOneBlankTiles
+            (
+            List<char> aList
+        )
+        {
+            if(aList.Contains('?'))
+            {
+                aList.Remove('?');
+                if(aList.Contains('?'))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void
@@ -114,9 +148,12 @@ namespace WordsWithFriendsProject
                     theCurrentWord = mDictionary.GetNextWord();
                     if (mMatcher.Evaluate(theCurrentWord, mLetters))
                     {
-                        // TODO: don't add words twice
-                        mSuccessWords.Add(new WordResult_t(theCurrentWord,
-                                                           mScorer.ScoreFirstWord(theCurrentWord)));
+                        
+                        if (CheckForDuplicates(theCurrentWord))
+                        {
+                            mSuccessWords.Add(new WordResult_t(theCurrentWord,
+                                                               mScorer.ScoreFirstWord(theCurrentWord)));
+                        }
                     }
                 }
             }
@@ -142,6 +179,28 @@ namespace WordsWithFriendsProject
                 mLetters.Remove(c);
             }
             mLetters.Add('?');
+        }
+
+        private bool
+        //-----------------------------------------------------------
+        CheckForDuplicates
+        //-----------------------------------------------------------
+            (
+            string aWord
+            )
+        {
+            if (mSuccessWords.Count() > 0)
+            {
+                foreach (WordResult_t w in mSuccessWords)
+                {
+                    if (String.Compare(w.GetWord(), aWord) == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         private void
@@ -235,9 +294,17 @@ namespace WordsWithFriendsProject
             mLetters.Clear();
             ClearListBox();
             FillLetterList();
-            FindMatches();
-            SortResults();
-            DisplayResults();
+
+            if (mLetters.Count() > 0)
+            {
+                FindMatches();
+                SortResults();
+                DisplayResults();
+            }
+            else
+            {
+                mResultsBox.Items.Add("Invaled Entry");
+            }
             Reset();
         }
 
@@ -251,5 +318,6 @@ namespace WordsWithFriendsProject
         private Scorer_t mScorer;
         private char[] mAlphabet;
         const int scResultsLimit = 20;
+        const char scDefaultChar = '-';
     }
 }

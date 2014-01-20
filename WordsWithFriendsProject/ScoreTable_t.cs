@@ -112,7 +112,7 @@ namespace WordsWithFriendsProject
                     theValue = scZValue;
                     break;
                 default:
-                    theValue = scBlankValue;
+                    theValue = scDefaultValue;
                     break;
             }
 
@@ -152,7 +152,7 @@ namespace WordsWithFriendsProject
         const Int32 scXValue = 8;
         const Int32 scYValue = 3;
         const Int32 scZValue = 10;
-        const Int32 scBlankValue = 0;
+        const Int32 scDefaultValue = 0;
 
     }
 }
