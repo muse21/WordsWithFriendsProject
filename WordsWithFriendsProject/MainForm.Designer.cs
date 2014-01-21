@@ -46,12 +46,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.mGoButton = new System.Windows.Forms.Button();
+            this.mFirstWordButton = new System.Windows.Forms.Button();
             this.mResultsBox = new System.Windows.Forms.ListBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label8 = new System.Windows.Forms.Label();
             this.MainTableLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -60,13 +63,13 @@
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MainTableLayoutPanel.Controls.Add(this.groupBox1, 0, 0);
             this.MainTableLayoutPanel.Controls.Add(this.groupBox2, 0, 1);
-            this.MainTableLayoutPanel.Controls.Add(this.mGoButton, 0, 2);
+            this.MainTableLayoutPanel.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.MainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
             this.MainTableLayoutPanel.RowCount = 3;
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.MainTableLayoutPanel.Size = new System.Drawing.Size(195, 299);
             this.MainTableLayoutPanel.TabIndex = 0;
             // 
@@ -85,7 +88,7 @@
             this.groupBox2.Controls.Add(this.tableLayoutPanel1);
             this.groupBox2.Location = new System.Drawing.Point(3, 203);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(189, 63);
+            this.groupBox2.Size = new System.Drawing.Size(189, 58);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Letters";
@@ -234,16 +237,16 @@
             this.label7.TabIndex = 13;
             this.label7.Text = " 7 ";
             // 
-            // mGoButton
+            // mFirstWordButton
             // 
-            this.mGoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.mGoButton.Location = new System.Drawing.Point(117, 273);
-            this.mGoButton.Name = "mGoButton";
-            this.mGoButton.Size = new System.Drawing.Size(75, 23);
-            this.mGoButton.TabIndex = 2;
-            this.mGoButton.Text = "Go!!";
-            this.mGoButton.UseVisualStyleBackColor = true;
-            this.mGoButton.Click += new System.EventHandler(this.HandleGoClicked);
+            this.mFirstWordButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mFirstWordButton.Location = new System.Drawing.Point(109, 3);
+            this.mFirstWordButton.Name = "mFirstWordButton";
+            this.mFirstWordButton.Size = new System.Drawing.Size(75, 23);
+            this.mFirstWordButton.TabIndex = 2;
+            this.mFirstWordButton.Text = "Go!!";
+            this.mFirstWordButton.UseVisualStyleBackColor = true;
+            this.mFirstWordButton.Click += new System.EventHandler(this.HandleGoClicked);
             // 
             // mResultsBox
             // 
@@ -253,20 +256,49 @@
             this.mResultsBox.Size = new System.Drawing.Size(178, 173);
             this.mResultsBox.TabIndex = 0;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.mFirstWordButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label8, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 267);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(187, 29);
+            this.tableLayoutPanel2.TabIndex = 2;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(100, 29);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Use ? for Blank Tile";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(195, 311);
+            this.ClientSize = new System.Drawing.Size(195, 305);
             this.Controls.Add(this.MainTableLayoutPanel);
             this.Name = "MainForm";
             this.Text = "WWF Helper";
             this.MainTableLayoutPanel.ResumeLayout(false);
+            this.MainTableLayoutPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -291,8 +323,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button mGoButton;
+        private System.Windows.Forms.Button mFirstWordButton;
         private System.Windows.Forms.ListBox mResultsBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label8;
     }
 }
 
