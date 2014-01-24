@@ -22,8 +22,10 @@ namespace WordsWithFriendsProject
             ClearListBox();
             LimitTextBoxSize();
 
-            mFirstWord = new FirstWord_t();
             mLetters = new List<char>();
+            mDictionary = new Dictionary_t();
+            mFirstWord = new FirstWord_t( mDictionary );
+            mSimpleSearch = new SimpleSearch_t( mDictionary );
             mSuccessWords = new List<WordResult_t>();
         }
 
@@ -156,6 +158,29 @@ namespace WordsWithFriendsProject
             mFirstWord.Reset();
         }
 
+        public void
+        //-----------------------------------------------------------
+        StartEvent
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            mLetters.Clear();
+            ClearListBox();
+            FillLetterList();
+        }
+
+        public void
+        //-----------------------------------------------------------
+        FinishEvent
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            Reset();
+        }
+
+
         //-----------------------------------------------------------
         // Event Handlers
         //-----------------------------------------------------------
@@ -169,20 +194,43 @@ namespace WordsWithFriendsProject
             EventArgs e
             )
         {
-            mLetters.Clear();
-            ClearListBox();
-            FillLetterList();
-
+            StartEvent();
 
             if (mLetters.Count() > 0)
             {
-                DisplayResults( mFirstWord.GetResults( mLetters ) );
+                DisplayResults( mFirstWord.GetResults( mLetters,
+                    mDoubleFirstWordCB.Checked ) );
             }
             else
             {
                 mResultsBox.Items.Add("Invaled Entry");
             }
-            Reset();
+
+            FinishEvent();
+        }
+
+        private void 
+        //-----------------------------------------------------------
+        HandleSimpleSearchClicked
+        //-----------------------------------------------------------
+            (
+            object sender,
+            EventArgs e
+            )
+        {
+            StartEvent();
+
+            if( mSimpleSearchTextBox.Text.Length == 0 )
+            {
+                mResultsBox.Items.Add("No word to search for");  
+            }
+            else
+            {
+                DisplayResults(mSimpleSearch.GetResults(mSimpleSearchTextBox.Text, mLetters));
+            }
+
+            mSimpleSearch.Reset();
+            FinishEvent();
         }
 
         //-----------------------------------------------------------
@@ -190,7 +238,13 @@ namespace WordsWithFriendsProject
         //-----------------------------------------------------------
         private List<char> mLetters;
         private List<WordResult_t> mSuccessWords;
+        private Dictionary_t mDictionary;
         private FirstWord_t mFirstWord;
+        private SimpleSearch_t mSimpleSearch;
         const char scDefaultChar = '-';
+
+        
+
+        
     }
 }

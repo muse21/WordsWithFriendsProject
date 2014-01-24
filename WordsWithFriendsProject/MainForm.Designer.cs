@@ -30,6 +30,7 @@
         {
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mResultsBox = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.mLetter1TextBox = new System.Windows.Forms.TextBox();
@@ -46,49 +47,71 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.mFirstWordButton = new System.Windows.Forms.Button();
-            this.mResultsBox = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
+            this.mFirstWordButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.mDoubleFirstWordCB = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.mSimpleSearchTextBox = new System.Windows.Forms.TextBox();
+            this.mSimpleSearchButton = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.MainTableLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
             // 
             this.MainTableLayoutPanel.ColumnCount = 1;
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainTableLayoutPanel.Controls.Add(this.groupBox1, 0, 0);
-            this.MainTableLayoutPanel.Controls.Add(this.groupBox2, 0, 1);
-            this.MainTableLayoutPanel.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.MainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainTableLayoutPanel.Controls.Add(this.mFirstWordButton, 0, 1);
+            this.MainTableLayoutPanel.Controls.Add(this.mDoubleFirstWordCB, 0, 0);
+            this.MainTableLayoutPanel.Location = new System.Drawing.Point(0, 16);
             this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
-            this.MainTableLayoutPanel.RowCount = 3;
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.MainTableLayoutPanel.Size = new System.Drawing.Size(195, 299);
+            this.MainTableLayoutPanel.RowCount = 2;
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.MainTableLayoutPanel.Size = new System.Drawing.Size(172, 54);
             this.MainTableLayoutPanel.TabIndex = 0;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.mResultsBox);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Location = new System.Drawing.Point(198, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(189, 194);
+            this.groupBox1.Size = new System.Drawing.Size(189, 185);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Results";
             // 
+            // mResultsBox
+            // 
+            this.mResultsBox.FormattingEnabled = true;
+            this.mResultsBox.Location = new System.Drawing.Point(4, 19);
+            this.mResultsBox.Name = "mResultsBox";
+            this.mResultsBox.Size = new System.Drawing.Size(178, 160);
+            this.mResultsBox.TabIndex = 0;
+            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox2.Location = new System.Drawing.Point(3, 203);
+            this.groupBox2.AutoSize = true;
+            this.groupBox2.Controls.Add(this.tableLayoutPanel6);
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(189, 58);
+            this.groupBox2.Size = new System.Drawing.Size(186, 104);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Letters";
@@ -117,12 +140,12 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.label6, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.label7, 6, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 17);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(176, 43);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(175, 43);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
             // mLetter1TextBox
@@ -237,25 +260,6 @@
             this.label7.TabIndex = 13;
             this.label7.Text = " 7 ";
             // 
-            // mFirstWordButton
-            // 
-            this.mFirstWordButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.mFirstWordButton.Location = new System.Drawing.Point(109, 3);
-            this.mFirstWordButton.Name = "mFirstWordButton";
-            this.mFirstWordButton.Size = new System.Drawing.Size(75, 23);
-            this.mFirstWordButton.TabIndex = 2;
-            this.mFirstWordButton.Text = "Go!!";
-            this.mFirstWordButton.UseVisualStyleBackColor = true;
-            this.mFirstWordButton.Click += new System.EventHandler(this.HandleGoClicked);
-            // 
-            // mResultsBox
-            // 
-            this.mResultsBox.FormattingEnabled = true;
-            this.mResultsBox.Location = new System.Drawing.Point(4, 19);
-            this.mResultsBox.Name = "mResultsBox";
-            this.mResultsBox.Size = new System.Drawing.Size(178, 173);
-            this.mResultsBox.TabIndex = 0;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -263,32 +267,162 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.mFirstWordButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label8, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 267);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(516, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(187, 29);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(0, 20);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
-            // label8
+            // mFirstWordButton
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 29);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Use ? for Blank Tile";
+            this.mFirstWordButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mFirstWordButton.Location = new System.Drawing.Point(94, 29);
+            this.mFirstWordButton.Name = "mFirstWordButton";
+            this.mFirstWordButton.Size = new System.Drawing.Size(75, 23);
+            this.mFirstWordButton.TabIndex = 2;
+            this.mFirstWordButton.Text = "Go!!";
+            this.mFirstWordButton.UseVisualStyleBackColor = true;
+            this.mFirstWordButton.Click += new System.EventHandler(this.HandleGoClicked);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.59399F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.34297F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.08478F));
+            this.tableLayoutPanel3.Controls.Add(this.groupBox1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 2, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(2, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(519, 383);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(198, 194);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(192, 171);
+            this.tableLayoutPanel4.TabIndex = 1;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.MainTableLayoutPanel);
+            this.groupBox3.Location = new System.Drawing.Point(3, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(183, 75);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "First Word Tool";
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.groupBox4, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.groupBox3, 0, 0);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 3;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(189, 179);
+            this.tableLayoutPanel5.TabIndex = 3;
+            // 
+            // mDoubleFirstWordCB
+            // 
+            this.mDoubleFirstWordCB.AutoSize = true;
+            this.mDoubleFirstWordCB.Location = new System.Drawing.Point(3, 3);
+            this.mDoubleFirstWordCB.Name = "mDoubleFirstWordCB";
+            this.mDoubleFirstWordCB.Size = new System.Drawing.Size(145, 17);
+            this.mDoubleFirstWordCB.TabIndex = 3;
+            this.mDoubleFirstWordCB.Text = "Double Words 5+ Length";
+            this.mDoubleFirstWordCB.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 49);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Use ? for Blank Tile";
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label9, 0, 1);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(2, 19);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(181, 66);
+            this.tableLayoutPanel6.TabIndex = 2;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.mSimpleSearchTextBox, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.mSimpleSearchButton, 1, 0);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(6, 19);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(171, 29);
+            this.tableLayoutPanel7.TabIndex = 3;
+            // 
+            // mSimpleSearchTextBox
+            // 
+            this.mSimpleSearchTextBox.Location = new System.Drawing.Point(3, 3);
+            this.mSimpleSearchTextBox.Name = "mSimpleSearchTextBox";
+            this.mSimpleSearchTextBox.Size = new System.Drawing.Size(102, 20);
+            this.mSimpleSearchTextBox.TabIndex = 0;
+            // 
+            // mSimpleSearchButton
+            // 
+            this.mSimpleSearchButton.Location = new System.Drawing.Point(111, 3);
+            this.mSimpleSearchButton.Name = "mSimpleSearchButton";
+            this.mSimpleSearchButton.Size = new System.Drawing.Size(57, 23);
+            this.mSimpleSearchButton.TabIndex = 1;
+            this.mSimpleSearchButton.Text = "Search";
+            this.mSimpleSearchButton.UseVisualStyleBackColor = true;
+            this.mSimpleSearchButton.Click += new System.EventHandler(this.HandleSimpleSearchClicked);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tableLayoutPanel7);
+            this.groupBox4.Location = new System.Drawing.Point(3, 84);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(183, 53);
+            this.groupBox4.TabIndex = 2;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Simple Word Search";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(195, 305);
-            this.Controls.Add(this.MainTableLayoutPanel);
+            this.ClientSize = new System.Drawing.Size(712, 398);
+            this.Controls.Add(this.tableLayoutPanel3);
             this.Name = "MainForm";
             this.Text = "WWF Helper";
             this.MainTableLayoutPanel.ResumeLayout(false);
@@ -297,8 +431,17 @@
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -326,7 +469,17 @@
         private System.Windows.Forms.Button mFirstWordButton;
         private System.Windows.Forms.ListBox mResultsBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox mDoubleFirstWordCB;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.TextBox mSimpleSearchTextBox;
+        private System.Windows.Forms.Button mSimpleSearchButton;
     }
 }
 

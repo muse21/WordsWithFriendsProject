@@ -15,16 +15,18 @@ namespace WordsWithFriendsProject
         
         //-----------------------------------------------------------
         public FirstWord_t
-            //-----------------------------------------------------------
+        //-----------------------------------------------------------
             (
+            Dictionary_t aDictionary
             )
         {
-            mDictionary = new Dictionary_t();
+            mDictionary = aDictionary;
             mLetters = new List<char>();
             mSuccessWords = new List<WordResult_t>();
             mMatcher = new Matcher_t();
             mScorer = new Scorer_t();
             mResultList = new List<string>();
+            mDoubleScore = false;
             mAlphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 
                 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -35,10 +37,12 @@ namespace WordsWithFriendsProject
         GetResults
         //-----------------------------------------------------------
             (
-            List<char> aLetters
+            List<char> aLetters,
+            bool aDoubleScore
             )
         {
             mLetters = aLetters;
+            mDoubleScore = aDoubleScore;
 
             FindMatches();
             SortResults();
@@ -72,6 +76,14 @@ namespace WordsWithFriendsProject
             )
         {
             string theCurrentWord;
+
+            StateIfResultsDoubled();
+
+            if (mLetters.Count() != 0)
+            {
+                FormatResults();
+            }
+
             if (!mLetters.Contains('?'))
             {
                 while (mDictionary.HasMoreWords())
@@ -83,7 +95,8 @@ namespace WordsWithFriendsProject
                         if (CheckForDuplicates(theCurrentWord))
                         {
                             mSuccessWords.Add(new WordResult_t(theCurrentWord,
-                                                               mScorer.ScoreFirstWord(theCurrentWord)));
+                                                               mScorer.ScoreFirstWord(theCurrentWord,
+                                                               mDoubleScore ) ) );
                         }
                     }
                 }
@@ -196,6 +209,34 @@ namespace WordsWithFriendsProject
             }
         }
 
+        private void
+        //-----------------------------------------------------------
+        FormatResults
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            mResultList.Add("First Word Results");
+            mResultList.Add("------------------------------");
+        }
+
+        private void
+        //-----------------------------------------------------------
+        StateIfResultsDoubled
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            if (mDoubleScore)
+            {
+                mResultList.Add("Words 5+ in length doubled");
+            }
+            else
+            {
+                mResultList.Add("(Words 5+ in length not doubled)");
+            }
+        }
+
         //-----------------------------------------------------------
         // Member Data
         //-----------------------------------------------------------
@@ -208,5 +249,6 @@ namespace WordsWithFriendsProject
         private char[] mAlphabet;
         const int scResultsLimit = 20;
         const char scDefaultChar = '-';
+        bool mDoubleScore;
     }
 }

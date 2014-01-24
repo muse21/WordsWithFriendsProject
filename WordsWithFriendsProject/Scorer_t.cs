@@ -27,7 +27,8 @@ namespace WordsWithFriendsProject
         ScoreFirstWord
         //-----------------------------------------------------------
             (
-            string aWord
+            string aWord, 
+            bool aDoubleScore
             )
         {
             Int32 theScore = 0;
@@ -37,7 +38,7 @@ namespace WordsWithFriendsProject
                 theScore += mScoreTable.GetScore(c);
             }
 
-            if (aWord.Length > 4)
+            if (aWord.Length > 4 && aDoubleScore )
             {
                 theScore = theScore * scDouble;
             }
