@@ -31,9 +31,9 @@ namespace WordsWithFriendsProject
         {
             List<char> theListCopy = new List<char>();
 
-            for (int i = 0; i < aLetterList.Count; i++)
+            foreach (char c in aLetterList)
             {
-                theListCopy.Add(aLetterList[i]);
+                theListCopy.Add(c);
             }
 
             foreach (char c in aWord)
