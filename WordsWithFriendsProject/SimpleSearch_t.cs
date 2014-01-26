@@ -38,7 +38,9 @@ namespace WordsWithFriendsProject
         //-----------------------------------------------------------
             (
             string aWord,
-            List<char> aLetters
+            List<char> aLetters,
+            bool aShowSubs,
+            bool aShowJustMySubs
             )
         {
             mString = aWord.ToLower();
@@ -70,10 +72,17 @@ namespace WordsWithFriendsProject
             }
 
             GetPreliminaryResults();
-            AddSubStringHeader();
-            AddSubStringResults();
-            DiscoverSubStringsThatIncludeMyLetters();
-            AddSubStringsThatIncludeMyLetters();
+
+            if (aShowSubs)
+            {
+                AddSubStringHeader();
+                AddSubStringResults();
+            }
+            if (aShowJustMySubs)
+            {
+                DiscoverSubStringsThatIncludeMyLetters();
+                AddSubStringsThatIncludeMyLetters();
+            }
             mDictionary.Reset();
 
             return mResults;

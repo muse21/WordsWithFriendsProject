@@ -51,11 +51,88 @@ namespace WordsWithFriendsProject
             return theScore;
         }
 
+        public Int32
+        //-----------------------------------------------------------
+        StandardScore
+        //-----------------------------------------------------------
+            (
+            List<ScoringLetter_t> aWord
+            )
+        {
+            Int32 theScore = 0;
+            Int32 theLetterMultiplier = 0;
+            Int32 theWordMultiplier = 1;
+            Int32 theTemp = 0;
+            Int32 theScoreHolder = 0;
+
+            foreach(ScoringLetter_t s in aWord)
+            {
+                theTemp = s.mIndex;
+                theLetterMultiplier = GetLetterMultiplier(theTemp);
+                theWordMultiplier = theWordMultiplier * GetWordMultiplier(theTemp);
+                theScoreHolder = mScoreTable.GetScore(s.mChar);
+                theScore = theScore + (Int32)(theScoreHolder * theLetterMultiplier);
+            }
+
+            theScore = theScore * theWordMultiplier;
+
+            return theScore;
+        }
+
         //-----------------------------------------------------------
         // Private Functions
         //-----------------------------------------------------------
 
+        private Int32
+        //-----------------------------------------------------------
+        GetLetterMultiplier
+        //-----------------------------------------------------------
+            (
+            Int32 aNum
+            )
+        {
+            Int32 theValue = 0;
+            switch (aNum)
+            {
+                case 1:
+                    theValue = 2;
+                    break;
+                case 2:
+                    theValue = 3;
+                    break;
+                case 5:
+                    theValue = 0;
+                    break;
+                default:
+                    theValue = 1;
+                    break;
+            }
+            return theValue;
+        }
 
+        private Int32
+        //-----------------------------------------------------------
+        GetWordMultiplier
+        //-----------------------------------------------------------
+            (
+            Int32 aNum
+            )
+        {
+            Int32 theValue = 0;
+            switch (aNum)
+            {
+                case 3:
+                    theValue = 2;
+                    break;
+                case 4:
+                    theValue = 3;
+                    break;
+                default:
+                    theValue = 1;
+                    break;
+            }
+            return theValue;
+        }
         //-----------------------------------------------------------
         // Member Data
         //-----------------------------------------------------------

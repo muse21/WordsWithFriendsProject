@@ -27,6 +27,10 @@ namespace WordsWithFriendsProject
             mFirstWord = new FirstWord_t( mDictionary );
             mSimpleSearch = new SimpleSearch_t( mDictionary );
             mSuccessWords = new List<WordResult_t>();
+            mScorer = new Scorer_t();
+
+            LoadScorersComboBoxes();
+
         }
 
         //-----------------------------------------------------------
@@ -57,6 +61,16 @@ namespace WordsWithFriendsProject
             mLetter5TextBox.MaxLength = 1;
             mLetter6TextBox.MaxLength = 1;
             mLetter7TextBox.MaxLength = 1;
+            mScoreLetter1.MaxLength = 1;
+            mScoreLetter2.MaxLength = 1;
+            mScoreLetter1.MaxLength = 1;
+            mScoreLetter2.MaxLength = 1;
+            mScoreLetter1.MaxLength = 1;
+            mScoreLetter2.MaxLength = 1;
+            mScoreLetter1.MaxLength = 1;
+            mScoreLetter2.MaxLength = 1;
+            mScoreLetter1.MaxLength = 1;
+            mScoreLetter2.MaxLength = 1;
         }
 
         private void
@@ -110,6 +124,76 @@ namespace WordsWithFriendsProject
             {
                 mLetters = new List<char>( new char[] {the1Result, the2Result, 
                 the3Result, the4Result, the5Result, the6Result, the7Result});
+            }
+        }
+
+        private void
+        //-----------------------------------------------------------
+        FillScoringWord
+        //-----------------------------------------------------------
+            (
+            List<ScoringLetter_t> aWord
+            )
+        {
+            if (mScoreLetter1.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter1.Text), 
+                                                                                    mCB1.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter2.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter2.Text),
+                                                                                    mCB2.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter3.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter3.Text),
+                                                                                    mCB3.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter4.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter4.Text),
+                                                                                    mCB4.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter5.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter5.Text),
+                                                                                    mCB5.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter6.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter6.Text),
+                                                                                    mCB6.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter7.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter7.Text),
+                                                                                    mCB7.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter8.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter8.Text),
+                                                                                    mCB8.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter9.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter9.Text),
+                                                                                    mCB9.SelectedIndex);
+                aWord.Add(aLetter);
+            }
+            if (mScoreLetter10.Text.Trim().Length != 0)
+            {
+                ScoringLetter_t aLetter = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter10.Text),
+                                                                                    mCB10.SelectedIndex);
+                aWord.Add(aLetter);
             }
         }
 
@@ -180,6 +264,29 @@ namespace WordsWithFriendsProject
             Reset();
         }
 
+        private void
+        //-----------------------------------------------------------
+        LoadScorersComboBoxes
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            string[] theOptions = new string[]{ "ST", "DL", "TL", "DW", "TW", "?" };
+            foreach (string s in theOptions)
+            {
+                mCB1.Items.Add(s);
+                mCB2.Items.Add(s);
+                mCB3.Items.Add(s);
+                mCB4.Items.Add(s);
+                mCB5.Items.Add(s);
+                mCB6.Items.Add(s); 
+                mCB7.Items.Add(s);
+                mCB8.Items.Add(s);
+                mCB9.Items.Add(s);
+                mCB10.Items.Add(s);
+            }
+            
+        }
 
         //-----------------------------------------------------------
         // Event Handlers
@@ -226,11 +333,37 @@ namespace WordsWithFriendsProject
             }
             else
             {
-                DisplayResults(mSimpleSearch.GetResults(mSimpleSearchTextBox.Text, mLetters));
+                DisplayResults(mSimpleSearch.GetResults(mSimpleSearchTextBox.Text, 
+                    mLetters, 
+                    mShowSubStringsCB.Checked,
+                    mJustMySubStringsCB.Checked));
             }
 
             mSimpleSearch.Reset();
             FinishEvent();
+        }
+
+        private void 
+        //-----------------------------------------------------------
+        HandleScoreClicked
+        //-----------------------------------------------------------
+            (
+            object sender, 
+            EventArgs e
+            )
+        {
+            List<ScoringLetter_t> theWord = new List<ScoringLetter_t>();
+            FillScoringWord(theWord);
+            Int32 theScore = mScorer.StandardScore(theWord);
+            string theResult = System.String.Empty;
+
+            foreach (ScoringLetter_t s in theWord)
+            {
+                theResult += s.mChar;
+            }
+
+            mResultsBox.Items.Clear();
+            mResultsBox.Items.Add(theResult + " is worth " + theScore + " points");
         }
 
         //-----------------------------------------------------------
@@ -241,10 +374,8 @@ namespace WordsWithFriendsProject
         private Dictionary_t mDictionary;
         private FirstWord_t mFirstWord;
         private SimpleSearch_t mSimpleSearch;
+        private Scorer_t mScorer;
         const char scDefaultChar = '-';
-
-        
-
         
     }
 }
