@@ -84,7 +84,7 @@ namespace WordsWithFriendsProject
                 AddSubStringsThatIncludeMyLetters();
             }
             mDictionary.Reset();
-
+            
             return mResults;
         }
 
@@ -99,6 +99,20 @@ namespace WordsWithFriendsProject
             mResults.Clear();
             mPreliminaryResults.Clear();
             mMySubStringResults.Clear();
+        }
+
+        public List<string>
+        //-----------------------------------------------------------
+        SubSetScores
+        //-----------------------------------------------------------
+            (
+            List<string> aList, 
+            string aSub,
+            List<char> aLetters
+            )
+        {
+
+            return aList;
         }
 
         //-----------------------------------------------------------
@@ -140,14 +154,15 @@ namespace WordsWithFriendsProject
         }
 
         private void
-            //-----------------------------------------------------------
+        //-----------------------------------------------------------
         AddSubStringsThatIncludeMyLetters
-            //-----------------------------------------------------------
+        //-----------------------------------------------------------
             (
             )
         {
             DiscoverSubStringsThatIncludeMyLetters();
             AddSubstringsWithMyLettersHeader();
+            mMySubStringResults.Sort();
             foreach (string s in mMySubStringResults)
             {
                 mResults.Add(s);
@@ -169,8 +184,8 @@ namespace WordsWithFriendsProject
 
                 foreach (string s in mPreliminaryResults)
                 {
-                    theResult = String.Copy(s); ;
-                    theTemp = s.Replace(mString, "");
+                    theResult = String.Copy(s);
+                    theTemp = ReplaceFirst(theResult, mString, "");
 
                     if (mMatcher.Evaluate(theTemp, mLetters))
                     {
@@ -226,7 +241,18 @@ namespace WordsWithFriendsProject
             mResults.Add("---------------------------");
             mResults.Add("Words I can make with " + mString);
             mResults.Add("---------------------------");
-        }        
+        }
+
+        // http://stackoverflow.com/questions/8809354/replace-first-occurrence-of-pattern-in-a-string
+        public string ReplaceFirst(string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+        }
 
         //-----------------------------------------------------------
         // Member Data

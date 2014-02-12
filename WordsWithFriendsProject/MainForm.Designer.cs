@@ -85,6 +85,10 @@
             this.mScoreLetter9 = new System.Windows.Forms.TextBox();
             this.mScoreLetter10 = new System.Windows.Forms.TextBox();
             this.mScoringButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.mClearButton = new System.Windows.Forms.Button();
+            this.mAutoScoreButton = new System.Windows.Forms.Button();
+            this.mMyMatchesButton = new System.Windows.Forms.Button();
             this.MainTableLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -98,6 +102,7 @@
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTableLayoutPanel
@@ -587,7 +592,7 @@
             this.tableLayoutPanel9.ColumnCount = 1;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel9.Controls.Add(this.tableLayoutPanel8, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.mScoringButton, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.tableLayoutPanel10, 0, 1);
             this.tableLayoutPanel9.Location = new System.Drawing.Point(17, 326);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 2;
@@ -674,13 +679,62 @@
             // mScoringButton
             // 
             this.mScoringButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.mScoringButton.Location = new System.Drawing.Point(444, 70);
+            this.mScoringButton.Location = new System.Drawing.Point(250, 3);
             this.mScoringButton.Name = "mScoringButton";
-            this.mScoringButton.Size = new System.Drawing.Size(75, 23);
+            this.mScoringButton.Size = new System.Drawing.Size(75, 21);
             this.mScoringButton.TabIndex = 0;
             this.mScoringButton.Text = "Score";
             this.mScoringButton.UseVisualStyleBackColor = true;
             this.mScoringButton.Click += new System.EventHandler(this.HandleScoreClicked);
+            // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel10.ColumnCount = 4;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.Controls.Add(this.mScoringButton, 3, 0);
+            this.tableLayoutPanel10.Controls.Add(this.mAutoScoreButton, 2, 0);
+            this.tableLayoutPanel10.Controls.Add(this.mClearButton, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.mMyMatchesButton, 0, 0);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(191, 70);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 1;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(328, 27);
+            this.tableLayoutPanel10.TabIndex = 4;
+            // 
+            // mClearButton
+            // 
+            this.mClearButton.Location = new System.Drawing.Point(84, 3);
+            this.mClearButton.Name = "mClearButton";
+            this.mClearButton.Size = new System.Drawing.Size(75, 21);
+            this.mClearButton.TabIndex = 1;
+            this.mClearButton.Text = "Clear All";
+            this.mClearButton.UseVisualStyleBackColor = true;
+            this.mClearButton.Click += new System.EventHandler(this.HandleClearClicked);
+            // 
+            // mAutoScoreButton
+            // 
+            this.mAutoScoreButton.Location = new System.Drawing.Point(165, 3);
+            this.mAutoScoreButton.Name = "mAutoScoreButton";
+            this.mAutoScoreButton.Size = new System.Drawing.Size(75, 21);
+            this.mAutoScoreButton.TabIndex = 2;
+            this.mAutoScoreButton.Text = "Auto Score";
+            this.mAutoScoreButton.UseVisualStyleBackColor = true;
+            this.mAutoScoreButton.Click += new System.EventHandler(this.HandleAutoScoreClicked);
+            // 
+            // mMyMatchesButton
+            // 
+            this.mMyMatchesButton.Location = new System.Drawing.Point(3, 3);
+            this.mMyMatchesButton.Name = "mMyMatchesButton";
+            this.mMyMatchesButton.Size = new System.Drawing.Size(75, 21);
+            this.mMyMatchesButton.TabIndex = 3;
+            this.mMyMatchesButton.Text = "My Matches";
+            this.mMyMatchesButton.UseVisualStyleBackColor = true;
+            this.mMyMatchesButton.Click += new System.EventHandler(this.HandleMyMatchesClicked);
             // 
             // MainForm
             // 
@@ -713,6 +767,7 @@
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -776,6 +831,10 @@
         private System.Windows.Forms.TextBox mScoreLetter9;
         private System.Windows.Forms.TextBox mScoreLetter10;
         private System.Windows.Forms.Button mScoringButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
+        private System.Windows.Forms.Button mClearButton;
+        private System.Windows.Forms.Button mAutoScoreButton;
+        private System.Windows.Forms.Button mMyMatchesButton;
     }
 }
 

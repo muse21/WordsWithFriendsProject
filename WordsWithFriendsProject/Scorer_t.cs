@@ -40,7 +40,7 @@ namespace WordsWithFriendsProject
 
             if (aWord.Length > 4 && aDoubleScore )
             {
-                theScore = theScore * scDouble;
+                theScore = (Int32)(theScore * scDouble);
             }
 
             if (aWord.Length == 7)
@@ -78,6 +78,9 @@ namespace WordsWithFriendsProject
 
             return theScore;
         }
+
+        public List<string>
+            SubScore(List<string> aWordList, List<ScoringLetter_t> aList, List<char> aLetters) { return aWordList; }
 
         //-----------------------------------------------------------
         // Private Functions

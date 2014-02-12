@@ -77,8 +77,6 @@ namespace WordsWithFriendsProject
         {
             string theCurrentWord;
 
-            StateIfResultsDoubled();
-
             if (mLetters.Count() != 0)
             {
                 FormatResults();
@@ -216,6 +214,7 @@ namespace WordsWithFriendsProject
             (
             )
         {
+            StateIfResultsDoubled();
             mResultList.Add("First Word Results");
             mResultList.Add("------------------------------");
         }

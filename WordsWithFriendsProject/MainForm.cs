@@ -28,9 +28,11 @@ namespace WordsWithFriendsProject
             mSimpleSearch = new SimpleSearch_t( mDictionary );
             mSuccessWords = new List<WordResult_t>();
             mScorer = new Scorer_t();
+            mMyWords = new MyWords_t(mDictionary);
 
             LoadScorersComboBoxes();
-
+            SetComboBoxes();
+            mJustMySubStringsCB.Checked = true;
         }
 
         //-----------------------------------------------------------
@@ -90,31 +92,31 @@ namespace WordsWithFriendsProject
 
             if (mLetter1TextBox.Text.Trim().Length != 0)
             {
-                the1Result = System.Convert.ToChar(mLetter1TextBox.Text);
+                the1Result = Char.ToLower(System.Convert.ToChar(mLetter1TextBox.Text));
             }
             if (mLetter2TextBox.Text.Trim().Length != 0)
             {
-                the2Result = System.Convert.ToChar(mLetter2TextBox.Text);
+                the2Result = Char.ToLower(System.Convert.ToChar(mLetter2TextBox.Text));
             }
             if (mLetter3TextBox.Text.Trim().Length != 0)
             {
-                the3Result = System.Convert.ToChar(mLetter3TextBox.Text);
+                the3Result = Char.ToLower(System.Convert.ToChar(mLetter3TextBox.Text));
             }
             if (mLetter4TextBox.Text.Trim().Length != 0)
             {
-                the4Result = System.Convert.ToChar(mLetter4TextBox.Text);
+                the4Result = Char.ToLower(System.Convert.ToChar(mLetter4TextBox.Text));
             }
             if (mLetter5TextBox.Text.Trim().Length != 0)
             {
-                the5Result = System.Convert.ToChar(mLetter5TextBox.Text);
+                the5Result = Char.ToLower(System.Convert.ToChar(mLetter5TextBox.Text));
             }
             if (mLetter6TextBox.Text.Trim().Length != 0)
             {
-                the6Result = System.Convert.ToChar(mLetter6TextBox.Text);
+                the6Result = Char.ToLower(System.Convert.ToChar(mLetter6TextBox.Text));
             }
             if (mLetter7TextBox.Text.Trim().Length != 0)
             {
-                the7Result = System.Convert.ToChar(mLetter7TextBox.Text);
+                the7Result = Char.ToLower(System.Convert.ToChar(mLetter7TextBox.Text));
             }
 
             List<char> theTemp = new List<char>(new char[] {the1Result, the2Result, 
@@ -288,6 +290,88 @@ namespace WordsWithFriendsProject
             
         }
 
+        private void
+        //-----------------------------------------------------------
+        SetComboBoxes
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            mCB1.SelectedIndex = 0;
+            mCB2.SelectedIndex = 0;
+            mCB3.SelectedIndex = 0;
+            mCB4.SelectedIndex = 0;
+            mCB5.SelectedIndex = 0;
+            mCB6.SelectedIndex = 0;
+            mCB7.SelectedIndex = 0;
+            mCB8.SelectedIndex = 0;
+            mCB9.SelectedIndex = 0;
+            mCB10.SelectedIndex = 0;
+        }
+
+        private void 
+        //-----------------------------------------------------------
+        ClearAllTextBoxes
+        //-----------------------------------------------------------
+            (
+            )
+        {
+            mResultsBox.Items.Clear();
+            mScoreLetter1.Clear();
+            mScoreLetter2.Clear();
+            mScoreLetter3.Clear();
+            mScoreLetter4.Clear();
+            mScoreLetter5.Clear();
+            mScoreLetter6.Clear();
+            mScoreLetter7.Clear();
+            mScoreLetter8.Clear();
+            mScoreLetter9.Clear();
+            mScoreLetter10.Clear();
+            mLetter1TextBox.Clear();
+            mLetter2TextBox.Clear();
+            mLetter3TextBox.Clear();
+            mLetter4TextBox.Clear();
+            mLetter5TextBox.Clear();
+            mLetter6TextBox.Clear();
+            mLetter7TextBox.Clear();
+            mSimpleSearchTextBox.Clear();
+        }
+
+        private List<ScoringLetter_t>
+         //-----------------------------------------------------------
+         BuildScoringWord
+         //-----------------------------------------------------------
+            (
+            )
+        {
+
+            ScoringLetter_t aLetter1 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter1.Text),
+                                                          mCB1.SelectedIndex);
+            ScoringLetter_t aLetter2 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter2.Text),
+                                                          mCB2.SelectedIndex);
+            ScoringLetter_t aLetter3 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter3.Text),
+                                                          mCB3.SelectedIndex);
+            ScoringLetter_t aLetter4 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter4.Text),
+                                                          mCB4.SelectedIndex);
+            ScoringLetter_t aLetter5 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter5.Text),
+                                                          mCB5.SelectedIndex);
+            ScoringLetter_t aLetter6 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter6.Text),
+                                                          mCB6.SelectedIndex);
+            ScoringLetter_t aLetter7 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter7.Text),
+                                                          mCB7.SelectedIndex);
+            ScoringLetter_t aLetter8 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter8.Text),
+                                                          mCB8.SelectedIndex);
+            ScoringLetter_t aLetter9 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter9.Text),
+                                                          mCB9.SelectedIndex);
+            ScoringLetter_t aLetter10 = new ScoringLetter_t(System.Convert.ToChar(mScoreLetter10.Text),
+                                                          mCB10.SelectedIndex);
+
+            List<ScoringLetter_t> theWord = new List<ScoringLetter_t>{ aLetter1, aLetter2, aLetter3,
+                aLetter4, aLetter5, aLetter6, aLetter7, aLetter8, aLetter9, aLetter10};
+
+            return theWord;
+        }
+
         //-----------------------------------------------------------
         // Event Handlers
         //-----------------------------------------------------------
@@ -352,6 +436,8 @@ namespace WordsWithFriendsProject
             EventArgs e
             )
         {
+            StartEvent();
+
             List<ScoringLetter_t> theWord = new List<ScoringLetter_t>();
             FillScoringWord(theWord);
             Int32 theScore = mScorer.StandardScore(theWord);
@@ -364,7 +450,73 @@ namespace WordsWithFriendsProject
 
             mResultsBox.Items.Clear();
             mResultsBox.Items.Add(theResult + " is worth " + theScore + " points");
+            
+            FinishEvent();
         }
+
+        private void 
+        //-----------------------------------------------------------
+        HandleClearClicked
+        //-----------------------------------------------------------
+            (
+            object sender, 
+            EventArgs e
+            )
+
+        {
+            StartEvent();
+
+            SetComboBoxes();
+            ClearAllTextBoxes();
+
+            FinishEvent();
+        }
+
+        private void
+        //-----------------------------------------------------------
+        HandleAutoScoreClicked
+        //-----------------------------------------------------------
+            (
+            object sender, 
+            EventArgs e)
+        {
+            StartEvent();
+            
+            FillLetterList();
+            string theSub = mSimpleSearchTextBox.Text;
+            List<string> theWords = new List<string>();
+            theWords = mSimpleSearch.SubSetScores(theWords, theSub, mLetters); // unimplemented
+
+            List<ScoringLetter_t> theScoringWord = new List<ScoringLetter_t>();
+            //theScoringWord = BuildScoringWord();
+
+            List<string> theResults = mScorer.SubScore(theWords, theScoringWord, mLetters);  // unimplemented
+
+            FinishEvent();
+        }
+
+        private void
+        //-----------------------------------------------------------
+        HandleMyMatchesClicked
+        //-----------------------------------------------------------
+            (
+            object sender, 
+            EventArgs e
+            )
+        {
+            StartEvent();
+
+            List<string> theResults = new List<string>();
+
+            if (mLetters.Count != 0)
+            {
+                theResults = mMyWords.GetResults(mLetters);
+            }
+            DisplayResults(theResults);
+            
+            FinishEvent();
+        }
+
 
         //-----------------------------------------------------------
         // Member Data
@@ -375,7 +527,12 @@ namespace WordsWithFriendsProject
         private FirstWord_t mFirstWord;
         private SimpleSearch_t mSimpleSearch;
         private Scorer_t mScorer;
+        private MyWords_t mMyWords;
         const char scDefaultChar = '-';
+
+        
+        
+        
         
     }
 }
