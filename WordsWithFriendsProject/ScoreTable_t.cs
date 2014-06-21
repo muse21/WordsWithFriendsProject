@@ -67,7 +67,7 @@ namespace WordsWithFriendsProject
                     theValue = scKValue;
                     break;
                 case 'l':
-                    theValue = scKValue;
+                    theValue = scLValue;
                     break;
                 case 'm':
                     theValue = scMValue;
@@ -85,7 +85,7 @@ namespace WordsWithFriendsProject
                     theValue = scQValue;
                     break;
                 case 'r':
-                    theValue = scPValue;
+                    theValue = scRValue;
                     break;
                 case 's':
                     theValue = scSValue;

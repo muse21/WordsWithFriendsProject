@@ -17,60 +17,25 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mWordList = new List<string>();
-            mIndex = 0;
+            var theWordList = new List<string>();
 
             string theLine;
             using (StreamReader theStreamReader = new StreamReader( "words.txt" ) )
             {
                 while( ( theLine = theStreamReader.ReadLine() ) != null )
                 {
-                    mWordList.Add( theLine );
+                    theWordList.Add( theLine );
                 }
                 theStreamReader.Close();
                 theStreamReader.Dispose();
             }
+            WordList = theWordList;
         }
 
-        //-----------------------------------------------------------
-        // public functions
-        //-----------------------------------------------------------
-
-        public string
-        //-----------------------------------------------------------
-        GetNextWord
-        //-----------------------------------------------------------
-            (
-            )
-        {
-
-            return mWordList[mIndex++];
-        }
-
-        public void
-        //-----------------------------------------------------------
-        Reset
-        //-----------------------------------------------------------
-            (
-            )
-        {
-            mIndex = 0;
-        }
-
-        public bool
-        //-----------------------------------------------------------
-        HasMoreWords
-        //-----------------------------------------------------------
-            (
-            )
-        {
-            return mWordList.Count > (mIndex + 1);
-        }
 
         //-----------------------------------------------------------
         // Member Data
         //-----------------------------------------------------------
-        private List<string> mWordList;
-        private Int32 mIndex;
+        public IEnumerable<string> WordList{ get; private set;}
     }
 }

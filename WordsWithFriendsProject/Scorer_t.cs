@@ -5,37 +5,67 @@ using System.Text;
 
 namespace WordsWithFriendsProject
 {
-    //-----------------------------------------------------------
+    //-------------------------------------------------------------------------
     class Scorer_t
-    //-----------------------------------------------------------
+    //-------------------------------------------------------------------------
     {
-        //-----------------------------------------------------------
-        // Public Functions
-        //-----------------------------------------------------------
-        
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
         public Scorer_t
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
             (
             )
         {
             mScoreTable = new ScoreTable_t();
         }
 
-        public Int32
-        //-----------------------------------------------------------
+        public List<String>
+        //---------------------------------------------------------------------
+        ScoreBoardResults
+            (
+            List<SearchResults_t> aSearchResults
+            )
+        {
+            var theScoredResultStrings = new HashSet<string>();
+
+            foreach (var theResults in aSearchResults)
+            {
+                int theScore = 0;
+                foreach (var theResult in theResults.Results)
+                {
+                    theResult.Score = ScoreWord(theResult.Word);
+                    theScore += ScoreWord(theResult.Word);
+                }
+                var theMainResult = theResults.Results.FirstOrDefault();
+                var theTile = theMainResult.Word.FirstOrDefault();
+                string theWord = System.String.Empty;
+
+                theWord += theScore + " - ";
+
+                foreach (var theLetter in theMainResult.Word)
+                {
+                    theWord += System.Convert.ToString(Char.ToUpper(theLetter.Letter));
+                }
+
+                theWord += " - " + theTile.X + " " + theTile.Y;
+
+                theScoredResultStrings.Add(theWord);
+            }
+            return theScoredResultStrings.ToList();
+        }
+
+        public int
+        //---------------------------------------------------------------------
         ScoreFirstWord
-        //-----------------------------------------------------------
             (
             string aWord, 
             bool aDoubleScore
             )
         {
-            Int32 theScore = 0;
+            var theScore = 0;
 
-            foreach (char c in aWord)
+            foreach (char theChar in aWord)
             {
-                theScore += mScoreTable.GetScore(c);
+                theScore += mScoreTable.GetScore(theChar);
             }
 
             if (aWord.Length > 4 && aDoubleScore )
@@ -51,94 +81,63 @@ namespace WordsWithFriendsProject
             return theScore;
         }
 
-        public Int32
-        //-----------------------------------------------------------
-        StandardScore
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
+        // Private Functions
+        //---------------------------------------------------------------------
+
+        private int
+        //---------------------------------------------------------------------
+        ScoreWord
             (
-            List<ScoringLetter_t> aWord
+            List<Tile_t> aWord
             )
         {
-            Int32 theScore = 0;
-            Int32 theLetterMultiplier = 0;
-            Int32 theWordMultiplier = 1;
-            Int32 theTemp = 0;
-            Int32 theScoreHolder = 0;
+            var theScore = 0;
+            var theWordMultiplier = 1;
 
-            foreach(ScoringLetter_t s in aWord)
+            foreach (var theTile in aWord)
             {
-                theTemp = s.mIndex;
-                theLetterMultiplier = GetLetterMultiplier(theTemp);
-                theWordMultiplier = theWordMultiplier * GetWordMultiplier(theTemp);
-                theScoreHolder = mScoreTable.GetScore(s.mChar);
-                theScore = theScore + (Int32)(theScoreHolder * theLetterMultiplier);
+                Int32 theLetterScore = 0;
+                if (!theTile.IsWild)
+                {
+                    theLetterScore += mScoreTable.GetScore(theTile.Letter);
+                }
+                var theLetterBonus = 1;
+
+                if (theTile.SearchType == SearchType_t.ePlayed)
+                {
+                    theTile.Bonus = TileBonus_t.eNone;
+                }
+
+                switch (theTile.Bonus)
+                {
+                    case TileBonus_t.eDoubleLetter:
+                        theLetterBonus = 2;
+                        break;
+                    case TileBonus_t.eTripleLetter:
+                        theLetterBonus = 3;
+                        break;
+                    case TileBonus_t.eDoubleWord:
+                        theWordMultiplier = theWordMultiplier * 2;
+                        break;
+                    case TileBonus_t.eTripleWord:
+                        theWordMultiplier = theWordMultiplier * 3;
+                        break;
+                    case TileBonus_t.eNone:
+                    default:
+                        theLetterBonus = 1;
+                        break;
+                }
+
+                theScore += theLetterScore * theLetterBonus;
             }
-
             theScore = theScore * theWordMultiplier;
-
             return theScore;
         }
 
-        public List<string>
-            SubScore(List<string> aWordList, List<ScoringLetter_t> aList, List<char> aLetters) { return aWordList; }
-
-        //-----------------------------------------------------------
-        // Private Functions
-        //-----------------------------------------------------------
-
-        private Int32
-        //-----------------------------------------------------------
-        GetLetterMultiplier
-        //-----------------------------------------------------------
-            (
-            Int32 aNum
-            )
-        {
-            Int32 theValue = 0;
-            switch (aNum)
-            {
-                case 1:
-                    theValue = 2;
-                    break;
-                case 2:
-                    theValue = 3;
-                    break;
-                case 5:
-                    theValue = 0;
-                    break;
-                default:
-                    theValue = 1;
-                    break;
-            }
-            return theValue;
-        }
-
-        private Int32
-        //-----------------------------------------------------------
-        GetWordMultiplier
-        //-----------------------------------------------------------
-            (
-            Int32 aNum
-            )
-        {
-            Int32 theValue = 0;
-            switch (aNum)
-            {
-                case 3:
-                    theValue = 2;
-                    break;
-                case 4:
-                    theValue = 3;
-                    break;
-                default:
-                    theValue = 1;
-                    break;
-            }
-            return theValue;
-        }
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
         // Member Data
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
         ScoreTable_t mScoreTable;
         const Int32 scDouble = 2;
         const Int32 scBingoBonus = 35;

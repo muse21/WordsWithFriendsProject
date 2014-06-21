@@ -24,8 +24,8 @@ namespace WordsWithFriendsProject
 
             mLetters = new List<char>();
             mResults = new List<string>();
+            mHash = new HashSet<string>();
             mPreliminaryResults = new List<string>();
-            mMySubStringResults = new List<string>();
             mMatcher = new Matcher_t();
             mAlphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 
                 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
@@ -46,29 +46,17 @@ namespace WordsWithFriendsProject
             mString = aWord.ToLower();
             mLetters = aLetters;
 
-            bool theSuccess = false;
-            string theNextWord = System.String.Empty;
+            var theWord = from word in mDictionary.WordList
+                          where String.Compare(word, mString) == 0
+                          select word;
 
-            while ( mDictionary.HasMoreWords() )
+            if (theWord.Count() > 0 )
             {
-                theNextWord = mDictionary.GetNextWord();
-                if ( theNextWord.Length == mString.Length ) 
-                {
-                    if ( String.Compare(theNextWord, mString) == 0 )
-                    {
-                        theSuccess = true;
-                        break;
-                    }
-                }
-            }
-
-            if (theSuccess)
-            {
-                mResults.Add(mString + " is in the Dictionary");
+                mResults.Add("--- " + mString + " is in the Dictionary");
             }
             else
             {
-                mResults.Add(mString + " is not in the Dictionary");
+                mResults.Add("--- " + mString + " is not in the Dictionary");
             }
 
             GetPreliminaryResults();
@@ -83,7 +71,6 @@ namespace WordsWithFriendsProject
                 DiscoverSubStringsThatIncludeMyLetters();
                 AddSubStringsThatIncludeMyLetters();
             }
-            mDictionary.Reset();
             
             return mResults;
         }
@@ -95,10 +82,9 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mDictionary.Reset();
             mResults.Clear();
             mPreliminaryResults.Clear();
-            mMySubStringResults.Clear();
+            mHash.Clear();
         }
 
         public List<string>
@@ -106,13 +92,21 @@ namespace WordsWithFriendsProject
         SubSetScores
         //-----------------------------------------------------------
             (
-            List<string> aList, 
-            string aSub,
+            string aWord,
             List<char> aLetters
             )
         {
+            Reset();
+            mString = aWord.ToLower();
+            mLetters = aLetters;
 
-            return aList;
+            GetPreliminaryResults();
+            DiscoverSubStringsThatIncludeMyLetters();
+
+            mResults = mResults.Concat(mHash).ToList();
+            mResults.Sort();
+
+            return mResults;
         }
 
         //-----------------------------------------------------------
@@ -126,16 +120,11 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mDictionary.Reset();
-            string theNextWord = System.String.Empty;
-            while (mDictionary.HasMoreWords())
-            {
-                theNextWord = mDictionary.GetNextWord();
-                if (theNextWord.Contains(mString))
-                {
-                    mPreliminaryResults.Add(theNextWord);
-                }
-            }
+            var theWords = from words in mDictionary.WordList
+                           where words.Contains(mString)
+                           select words;
+
+            mPreliminaryResults = mPreliminaryResults.Concat(theWords).ToList();
         }
 
         private void
@@ -145,12 +134,7 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mDictionary.Reset();
-            
-            foreach (string s in mPreliminaryResults)
-            {
-                mResults.Add(s);
-            }
+            mResults = mResults.Concat(mPreliminaryResults).ToList();
         }
 
         private void
@@ -162,11 +146,8 @@ namespace WordsWithFriendsProject
         {
             DiscoverSubStringsThatIncludeMyLetters();
             AddSubstringsWithMyLettersHeader();
-            mMySubStringResults.Sort();
-            foreach (string s in mMySubStringResults)
-            {
-                mResults.Add(s);
-            }
+            mResults = mResults.Concat(mHash).ToList();
+            mResults.Sort();
         }
 
         private void
@@ -179,9 +160,8 @@ namespace WordsWithFriendsProject
             string theTemp = System.String.Empty;
             string theResult = System.String.Empty;
 
-            if (!mLetters.Contains('?'))
+            if (mLetters[0] != '?')
             {
-
                 foreach (string s in mPreliminaryResults)
                 {
                     theResult = String.Copy(s);
@@ -189,10 +169,7 @@ namespace WordsWithFriendsProject
 
                     if (mMatcher.Evaluate(theTemp, mLetters))
                     {
-                        if(!mMySubStringResults.Contains(theResult) )
-                        {
-                            mMySubStringResults.Add(theResult);
-                        }
+                        mHash.Add(theResult);
                     }
                 }
             }
@@ -209,12 +186,10 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mLetters.Remove('?');
             foreach (char c in mAlphabet)
             {
-                mLetters.Add(c);
+                mLetters[0] = c;
                 DiscoverSubStringsThatIncludeMyLetters();
-                mLetters.Remove(c);
             }
         }
 
@@ -226,9 +201,7 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mResults.Add("---------------------------");
-            mResults.Add("Words containing " + mString);
-            mResults.Add("---------------------------");
+            mResults.Add("--- Words containing " + mString+"---");
         }
 
         private void
@@ -238,9 +211,7 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mResults.Add("---------------------------");
-            mResults.Add("Words I can make with " + mString);
-            mResults.Add("---------------------------");
+            mResults.Add("--- Words I can make with " + mString +"---");
         }
 
         // http://stackoverflow.com/questions/8809354/replace-first-occurrence-of-pattern-in-a-string
@@ -261,7 +232,7 @@ namespace WordsWithFriendsProject
         private List<char> mLetters;
         private List<string> mResults;
         private List<string> mPreliminaryResults;
-        private List<string> mMySubStringResults;
+        private HashSet<string> mHash;
         private string mString;
         private Matcher_t mMatcher;
         private char[] mAlphabet;

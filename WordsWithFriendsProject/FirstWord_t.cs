@@ -58,7 +58,6 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mDictionary.Reset();
             mLetters.Clear();
             mSuccessWords.Clear();
             mResultList.Clear();
@@ -75,27 +74,20 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            string theCurrentWord;
-
             if (mLetters.Count() != 0)
             {
                 FormatResults();
             }
 
-            if (!mLetters.Contains('?'))
+            if (mLetters[0] != '?')
             {
-                while (mDictionary.HasMoreWords())
-                {
-                    theCurrentWord = mDictionary.GetNextWord();
-                    if (mMatcher.Evaluate(theCurrentWord, mLetters))
+               foreach( var theCurrentWord in mDictionary.WordList)
+               {
+                    if (CheckForDuplicates(theCurrentWord))
                     {
-
-                        if (CheckForDuplicates(theCurrentWord))
-                        {
-                            mSuccessWords.Add(new WordResult_t(theCurrentWord,
-                                                               mScorer.ScoreFirstWord(theCurrentWord,
-                                                               mDoubleScore ) ) );
-                        }
+                        mSuccessWords.Add(new WordResult_t(theCurrentWord,
+                                                           mScorer.ScoreFirstWord(theCurrentWord,
+                                                           mDoubleScore ) ) );
                     }
                 }
             }
@@ -103,7 +95,6 @@ namespace WordsWithFriendsProject
             {
                 FindMatchesWithBlank();
             }
-            mDictionary.Reset();
         }
 
         private void
@@ -113,12 +104,10 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mLetters.Remove('?');
             foreach (char c in mAlphabet)
             {
-                mLetters.Add(c);
+                mLetters[0] = c;
                 FindMatches();
-                mLetters.Remove(c);
             }
         }
 
@@ -247,7 +236,7 @@ namespace WordsWithFriendsProject
         private Scorer_t mScorer;
         private char[] mAlphabet;
         const int scResultsLimit = 20;
-        const char scDefaultChar = '-';
+        const char scDefaultChar = '_';
         bool mDoubleScore;
     }
 }

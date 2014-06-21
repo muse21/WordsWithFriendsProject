@@ -5,20 +5,20 @@ using System.Text;
 
 namespace WordsWithFriendsProject
 {
-    //-----------------------------------------------------------
     class MyWords_t
-    //-----------------------------------------------------------
     {
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
         // Public Functions
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
+
+        //---------------------------------------------------------------------
         public MyWords_t
             (
             Dictionary_t aDictionary
             )
         {
             mDictionary = aDictionary;
-            mDictionary.Reset();
+            mHash = new HashSet<string>();
             mLetters = new List<char>();
             mMatcher = new Matcher_t();
             mResultList = new List<string>();
@@ -26,50 +26,67 @@ namespace WordsWithFriendsProject
                 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
         }
-
-        //-----------------------------------------------------------
+        
         public List<string>
+        //---------------------------------------------------------------------
         GetResults
-        //-----------------------------------------------------------
             (
             List<char> aLetters
             )
         {
             mLetters.Clear();
             mResultList.Clear();
+            mHash.Clear();
             mLetters = aLetters;
 
-            mDictionary.Reset();
             FindMatches();
-            mDictionary.Reset();
 
+            mResultList = mHash.ToList();
             mResultList.Sort();
 
             return mResultList;
         }
 
+        public List<LetterWord_t>
+        //---------------------------------------------------------------------
+        GetLetterWordResults
+            (
+            List<Letter_t> aLetters
+            )
+        {
+            var theLetterWordResults = new List<LetterWord_t>();
+            List<char> theLetters = new List<char>();
+            foreach( var Letter in aLetters)
+            {
+                theLetters.Add(Letter.Letter);
+            }
+            var theCallWithThis = new List<char>( theLetters);
+
+            foreach (var theResult in GetResults(theLetters))
+            {
+                theLetterWordResults.Add(new LetterWord_t(theResult, theCallWithThis));
+            }
+
+            return theLetterWordResults;
+        }
+
+        //---------------------------------------------------------------------
+        // Private Functions
+        //---------------------------------------------------------------------
 
         private void
-        //-----------------------------------------------------------
+        //---------------------------------------------------------------------
         FindMatches
-        //-----------------------------------------------------------
             (
             )
         {
-            string theCurrentWord;
-
-            if (!mLetters.Contains('?'))
+            if (mLetters[0] != '?')
             {
-                while (mDictionary.HasMoreWords())
+                foreach( var theWord in mDictionary.WordList )
                 {
-                    theCurrentWord = mDictionary.GetNextWord();
-                    if (mMatcher.Evaluate(theCurrentWord, mLetters))
+                    if (mMatcher.Evaluate(theWord, mLetters))
                     {
-
-                        if (!mResultList.Contains(theCurrentWord))
-                        {
-                            mResultList.Add(theCurrentWord);
-                        }
+                        mHash.Add(theWord);
                     }
                 }
             }
@@ -77,7 +94,6 @@ namespace WordsWithFriendsProject
             {
                 FindMatchesWithBlank();
             }
-            mDictionary.Reset();
         }
 
         private void
@@ -87,12 +103,10 @@ namespace WordsWithFriendsProject
             (
             )
         {
-            mLetters.Remove('?');
             foreach (char c in mAlphabet)
             {
-                mLetters.Add(c);
+                mLetters[0] = c;
                 FindMatches();
-                mLetters.Remove(c);
             }
         }
         
@@ -101,9 +115,10 @@ namespace WordsWithFriendsProject
         //-----------------------------------------------------------
         private Dictionary_t mDictionary;
         private List<char> mLetters;
+        private HashSet<string> mHash;
         private List<string> mResultList;
         private Matcher_t mMatcher;
         private char[] mAlphabet;
-        const char scDefaultChar = '-';
+        const char scDefaultChar = '_';
     }
 }
