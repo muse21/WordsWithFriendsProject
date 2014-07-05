@@ -83,7 +83,8 @@ namespace WordsWithFriendsProject
             {
                foreach( var theCurrentWord in mDictionary.WordList)
                {
-                    if (CheckForDuplicates(theCurrentWord))
+                    if (mMatcher.Evaluate(theCurrentWord, mLetters) &&
+                        CheckForDuplicates(theCurrentWord))
                     {
                         mSuccessWords.Add(new WordResult_t(theCurrentWord,
                                                            mScorer.ScoreFirstWord(theCurrentWord,

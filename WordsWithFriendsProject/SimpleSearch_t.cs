@@ -164,10 +164,11 @@ namespace WordsWithFriendsProject
             {
                 foreach (string s in mPreliminaryResults)
                 {
+                    List<char> theCopy = new List<char>(mLetters);
                     theResult = String.Copy(s);
                     theTemp = ReplaceFirst(theResult, mString, "");
 
-                    if (mMatcher.Evaluate(theTemp, mLetters))
+                    if (mMatcher.Evaluate(theTemp, theCopy))
                     {
                         mHash.Add(theResult);
                     }

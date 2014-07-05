@@ -13,7 +13,8 @@ namespace WordsWithFriendsProject
             int aCenterStringSize,
             int aLeftStringSize,
             int aRightStringSize,
-            int aRootIndex
+            int aRootIndex,
+            int aMaxWordLength
             )
         {
             mTemplate = aTemplate;
@@ -24,6 +25,7 @@ namespace WordsWithFriendsProject
             LeftStringSize = aLeftStringSize;
             RightStringSize = aRightStringSize;
             RootIndex = aRootIndex;
+            MaxWordLength = aMaxWordLength;
         }
 
         public Tile_t
@@ -41,7 +43,7 @@ namespace WordsWithFriendsProject
         }
 
         public bool
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         StringOnTop
             (
             )
@@ -50,7 +52,7 @@ namespace WordsWithFriendsProject
         }
 
         public bool
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         StringOnBottom
             (
             )
@@ -59,7 +61,7 @@ namespace WordsWithFriendsProject
         }
 
         public int
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         TopStringSize
             (
             )
@@ -68,7 +70,7 @@ namespace WordsWithFriendsProject
         }
 
         public int
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         BottomStringSize
             (
             )
@@ -87,6 +89,7 @@ namespace WordsWithFriendsProject
         public int LeftStringSize { get; private set; }
         public int RightStringSize { get; private set; }
         public int RootIndex { get; private set; }
+        public int MaxWordLength { get; private set; }
     }
 
 

@@ -100,5 +100,23 @@ namespace WordsWithFriendsProject
         }
 
         public List<Letter_t> LetterWord { get; private set; }
+
+        internal bool 
+        //---------------------------------------------------------------------
+        HasAtLeastNOfLetter
+            (
+            LetterWord_t word,
+            char p,
+            int n
+            )
+        {
+            int count = 0;
+            foreach( var c in word.LetterWord)
+            {
+                if (c.Letter == p) ++count;
+                if (count > n-1) break;
+            }
+            return count > n-1;
+        }
     }
 }
