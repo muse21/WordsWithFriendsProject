@@ -74,7 +74,76 @@ namespace WordsWithFriendsProject
                                    ( theLeftSubstringLength + theSpacesLeftToLetter ),
                                    theMaxWordLength );
         }
-    
+
+        public static Template_t
+        //---------------------------------------------------------------------
+        SimpleVTTemplate
+            (
+            GameBoard_t aGameBoard,
+            Tile_t aTile
+            )
+        {
+            int theSpacesDown = 14 - aTile.Y;
+            int theSpacesUp = aTile.Y;
+            int theSpacesDownToLetter = 0;
+            int theSpacesUpToLetter = 0;
+            int theDownSubstringLength = 0;
+            int theUpSubstringLength = 0;
+            
+            for (int i = 0; i < theSpacesDown; ++i)
+            {
+                if (aGameBoard.mBoard[aTile.X,i + 1 + aTile.Y].Letter == ' ')
+                {
+                    ++theSpacesDownToLetter;
+                }
+                else
+                {
+                    theDownSubstringLength = GetSubstringDownLength(aGameBoard, aTile.X, i + 1 + aTile.Y);
+                    break;
+                }
+            }
+
+            for (int i = aTile.Y - 1; i >= 0; --i)
+            {
+                if (aGameBoard.mBoard[aTile.X, i].Letter == ' ')
+                {
+                    ++theSpacesUpToLetter;
+                }
+                else
+                {
+                    theUpSubstringLength = GetSubstringUpLength(aGameBoard, aTile.X, i);
+                    break;
+                }
+            }
+
+            int theTemplateSize = theUpSubstringLength +
+                                  theSpacesUpToLetter +
+                                  1 +
+                                  theSpacesDownToLetter +
+                                  theDownSubstringLength;
+
+            Tile_t[] theTemplate = new Tile_t[theTemplateSize];
+
+            int theTileY = 0;
+            for (int i = 0; i < theTemplateSize; ++i)
+            {
+                theTileY = i + aTile.Y - theUpSubstringLength - theSpacesUpToLetter;
+                theTemplate[i] = (Tile_t)aGameBoard.mBoard[aTile.X, theTileY].Clone();
+            }
+
+            int theMaxWordLength = theTemplateSize -
+                                   2 -
+                                   theUpSubstringLength -
+                                   theDownSubstringLength;
+
+            return new Template_t(theTemplate,
+                                    0 /* WordLength */,
+                                   theUpSubstringLength,
+                                   theDownSubstringLength,
+                                   (theUpSubstringLength + theSpacesUpToLetter),
+                                   theMaxWordLength);
+        }
+
         public static Template_t
         //---------------------------------------------------------------------
         SimpleVerticalAboveTemplate
@@ -220,7 +289,7 @@ namespace WordsWithFriendsProject
                                    theMaxWordLength );
         }
 
-        internal static object 
+        internal static Template_t 
         //---------------------------------------------------------------------
         SimpleHorizontalRightTemplate
             (
@@ -291,6 +360,80 @@ namespace WordsWithFriendsProject
                                    theRightSubstringLengthAfterSpaces,
                                    ( theLeftSubstringLength + theSpacesLeftToLetter ),
                                    theMaxWordLength );
+        }
+
+        internal static Template_t
+        //---------------------------------------------------------------------
+        SimpleHorizontalLeftTemplate
+            (
+            GameBoard_t aGameBoard,
+            Tile_t aTile
+            )
+        {
+            int theSpacesToLeft = aTile.X;
+            int theSpacesToRight = 14 - aTile.X;
+            int theSubstringLeftSize = 0;
+            int theSpacesLeftAfterSubstringToLetter = 0;
+            int theSpacesRightToLetter = 0;
+            int theLeftSubstringLengthAfterSpaces = 0;
+            int theRightSubstringLength = 0;
+
+            theSubstringLeftSize = GetSubstringLeftLength(aGameBoard, aTile.X - 1, aTile.Y);
+
+            for (int i = 0; i < (theSpacesToLeft - theSubstringLeftSize); ++i)
+            {
+                if (aGameBoard.mBoard[ aTile.X - i - theSubstringLeftSize - 1, aTile.Y].Letter == ' ')
+                {
+                    ++theSpacesLeftAfterSubstringToLetter;
+                }
+                else
+                {
+                    theLeftSubstringLengthAfterSpaces = GetSubstringLeftLength(aGameBoard, aTile.X - i - theSubstringLeftSize - 1, aTile.Y);
+                    break;
+                }
+            }
+
+            for (int i = aTile.X + 1; i < 15; ++i)
+            {
+                if (aGameBoard.mBoard[i, aTile.Y].Letter == ' ')
+                {
+                    ++theSpacesRightToLetter;
+                }
+                else
+                {
+                    theRightSubstringLength = GetSubstringRightLength(aGameBoard, i, aTile.Y);
+                    break;
+                }
+            }
+
+            int theTemplateSize = theLeftSubstringLengthAfterSpaces +
+                                  theSpacesLeftAfterSubstringToLetter +
+                                  theSubstringLeftSize +
+                                  1 +
+                                  theSpacesRightToLetter +
+                                  theRightSubstringLength;
+
+            Tile_t[] theTemplate = new Tile_t[theTemplateSize];
+
+            int theTileX = 0;
+            for (int i = 0; i < theTemplateSize; ++i)
+            {
+                theTileX = aTile.X - theLeftSubstringLengthAfterSpaces - theSpacesLeftAfterSubstringToLetter - theSubstringLeftSize + i;
+                theTemplate[i] = (Tile_t)aGameBoard.mBoard[theTileX, aTile.Y].Clone();
+            }
+
+            int theMaxWordLength = theSubstringLeftSize +
+                                   theSpacesLeftAfterSubstringToLetter +
+                                   theSpacesRightToLetter -
+                                   2 + 
+                                   1;
+
+            return new Template_t( theTemplate,
+                                   theSubstringLeftSize,
+                                   theLeftSubstringLengthAfterSpaces,
+                                   theRightSubstringLength,
+                                   (theLeftSubstringLengthAfterSpaces + theSpacesLeftAfterSubstringToLetter + theSubstringLeftSize),
+                                   theMaxWordLength);
         }
 
         //---------------------------------------------------------------------

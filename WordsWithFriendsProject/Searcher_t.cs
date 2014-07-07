@@ -265,7 +265,7 @@ namespace WordsWithFriendsProject
         }
 
         private List<SearchResults_t>
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         RightResults
             (
             Tile_t aTile
@@ -280,27 +280,25 @@ namespace WordsWithFriendsProject
             var theTemplate = TemplateService_t.SimpleHorizontalRightTemplate(mBoard, (Tile_t)aTile.Clone());
 
             theResults = theResults.Concat(SimpleHorizontalRightResults((Tile_t)aTile.Clone(), theTemplate)).ToList();
-            /*
 
-            var theSimpleHZTemplate = TemplateService_t.SimpleHZTemplate(mBoard, (Tile_t)aTile.Clone());
+            var theSimpleVTTemplate = TemplateService_t.SimpleVTTemplate(mBoard, (Tile_t)aTile.Clone());
 
             // Horizontal Results 
-            var theLettersForDownWords = LettersForDownWords(aTile, theSubstringDown);
-
-            // make down result
-            foreach (var theLetter in theLettersForDownWords)
+            var theLettersForRightWords = LettersForRightWords(aTile, theSubstringRight);
+            
+            // make Vertical result
+            foreach (var theLetter in theLettersForRightWords)
             {
-                string theWord = theLetter.Letter + theSubstringDown;
+                string theWord = theLetter.Letter + theSubstringRight;
 
                 var theWords = from words in mDictionary.WordList
-                               where words.Length <= theWord.Length &&
-                               words.Contains(theLetter.Letter)
+                               where words.Length == theWord.Length &&
+                               words[0] == theLetter.Letter
                                select words;
 
                 foreach (var theCurrentWord in theWords)
                 {
-                    if (theWord.Length == theWord.Length &&
-                        string.Compare(theCurrentWord, theWord, true) == 0)
+                    if (string.Compare(theCurrentWord, theWord, true) == 0)
                     {
                         var theThisTile = (Tile_t)aTile.Clone();
                         theThisTile.Letter = theLetter.Letter;
@@ -308,34 +306,32 @@ namespace WordsWithFriendsProject
 
                         List<Tile_t> theWordList = new List<Tile_t>();
                         theWordList.Add(theThisTile);
-                        int theLength = theSubstringDown.Length;
+                        int theLength = theSubstringRight.Length;
 
                         for (int i = 1; i <= theLength; ++i)
                         {
-                            theWordList.Add((Tile_t)mBoard.mBoard[aTile.X, aTile.Y + i].Clone());
+                            theWordList.Add((Tile_t)mBoard.mBoard[aTile.X + i, aTile.Y].Clone());
                         }
 
-                        var theDownResult = new SearchResult_t(theWordList);
+                        var theRightResult = new SearchResult_t(theWordList);
 
-                        theResults = theResults.Concat(HorizontalResults(theThisTile,
-                                                                         theDownResult,
-                                                                         theSimpleHZTemplate,
-                                                                         SearchType_t.eBelow)).ToList();
+                        theResults = theResults.Concat(VerticalResults(theThisTile,
+                                                                       theRightResult,
+                                                                       theSimpleVTTemplate,
+                                                                       SearchType_t.eRight)).ToList();
 
                         List<SearchResult_t> theNewResults = new List<SearchResult_t>();
-                        theNewResults.Add(theDownResult);
+                        theNewResults.Add(theRightResult);
                         theResults.Add(new SearchResults_t(theNewResults));
                     }
                 }
             }
-            */
+            
             return theResults;
         }
 
-       
-
         private List<SearchResults_t>
-            //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         BelowLeftResults
             (
             Tile_t aTile
@@ -418,7 +414,62 @@ namespace WordsWithFriendsProject
             Tile_t aTile
             )
         {
-            return new List<SearchResults_t>();
+            var theResults = new List<SearchResults_t>();
+
+            var theSubstringLeft = SubstringLeft(aTile);
+
+            //  Vertical Results 
+            var theTemplate = TemplateService_t.SimpleHorizontalLeftTemplate(mBoard, (Tile_t)aTile.Clone());
+
+            theResults = theResults.Concat(SimpleHorizontalLeftResults((Tile_t)aTile.Clone(), theTemplate)).ToList();
+
+            var theSimpleVTTemplate = TemplateService_t.SimpleVTTemplate(mBoard, (Tile_t)aTile.Clone());
+
+            // Horizontal Results 
+            var theLettersForLeftWords = LettersForLeftWords(aTile, theSubstringLeft);
+            
+            // make Vertical result
+            foreach (var theLetter in theLettersForLeftWords)
+            {
+                string theWord = theSubstringLeft + theLetter.Letter;
+
+                var theWords = from words in mDictionary.WordList
+                               where words.Length == theWord.Length &&
+                               words[theWord.Length - 1] == theLetter.Letter
+                               select words;
+
+                foreach (var theCurrentWord in theWords)
+                {
+                    if (string.Compare(theCurrentWord, theWord, true) == 0)
+                    {
+                        var theThisTile = (Tile_t)aTile.Clone();
+                        theThisTile.Letter = theLetter.Letter;
+                        theThisTile.IsWild = theLetter.IsWild;
+
+                        List<Tile_t> theWordList = new List<Tile_t>();
+                        int theLength = theSubstringLeft.Length;
+
+                        for (int i = 1; i <= theLength; ++i)
+                        {
+                            theWordList.Add((Tile_t)mBoard.mBoard[aTile.X - theSubstringLeft.Length -1 + i, aTile.Y].Clone());
+                        }
+                        theWordList.Add(theThisTile);
+
+                        var theLeftResult = new SearchResult_t(theWordList);
+                        
+                        theResults = theResults.Concat(VerticalResults(theThisTile,
+                                                                       theLeftResult,
+                                                                       theSimpleVTTemplate,
+                                                                       SearchType_t.eLeft)).ToList();
+
+                        List<SearchResult_t> theNewResults = new List<SearchResult_t>();
+                        theNewResults.Add(theLeftResult);
+                        theResults.Add(new SearchResults_t(theNewResults));
+                    }
+                }
+            }
+            
+            return theResults;
         }
 
         private List<SearchResults_t>
@@ -436,6 +487,26 @@ namespace WordsWithFriendsProject
             theReturn = theReturn.Concat(SimpleHZResults(aSimpleHZTemplate, 
                                                          aClonedTile,
                                                          aResult, 
+                                                         aSearchType)).ToList();
+
+            return theReturn;
+        }
+
+        private List<SearchResults_t>
+        //---------------------------------------------------------------------
+        VerticalResults
+          (
+          Tile_t aClonedTile,
+          SearchResult_t aResult,
+          Template_t aSimpleHZTemplate,
+          SearchType_t aSearchType
+          )
+        {
+            var theReturn = new List<SearchResults_t>();
+
+            theReturn = theReturn.Concat(SimpleVTResults(aSimpleHZTemplate,
+                                                         aClonedTile,
+                                                         aResult,
                                                          aSearchType)).ToList();
 
             return theReturn;
@@ -507,6 +578,71 @@ namespace WordsWithFriendsProject
 
         private List<SearchResults_t>
         //---------------------------------------------------------------------
+        SimpleVTResults
+           (
+           Template_t aTemplate,
+           Tile_t aClonedTile,
+           SearchResult_t aResult,
+           SearchType_t aSearchType
+           )
+        {
+            List<SearchResults_t> theReturn = new List<SearchResults_t>();
+            
+            List<LetterWord_t> theMyResults = mMyWords.GetLetterWordResults(mLetters);
+            var theLetter = new Letter_t(aClonedTile.Letter, aClonedTile.IsWild);
+
+            theMyResults = RemoveWordsWithoutLetter(theMyResults, theLetter);
+            var theMyResultsWith2ofLetter = new List<LetterWord_t>();
+            var theMyResultsWith3ofLetter = new List<LetterWord_t>();
+
+            foreach (var word in theMyResults)
+            {
+                if (word.HasAtLeastNOfLetter(word, theLetter.Letter, 2))
+                {
+                    theMyResultsWith2ofLetter.Add(word);
+
+                    if (word.HasAtLeastNOfLetter(word, theLetter.Letter, 3))
+                    {
+                        theMyResultsWith3ofLetter.Add(word);
+                    }
+                }
+            }
+
+            theReturn = theReturn.Concat(SimpleVTByIndex(aTemplate,
+                                                          aClonedTile,
+                                                          aResult,
+                                                          aSearchType,
+                                                          theMyResults,
+                                                          theLetter,
+                                                          1)).ToList();
+
+            if (theMyResultsWith2ofLetter.Count() > 0)
+            {
+                theReturn = theReturn.Concat(SimpleVTByIndex(aTemplate,
+                                                             aClonedTile,
+                                                             aResult,
+                                                             aSearchType,
+                                                             theMyResultsWith2ofLetter,
+                                                             theLetter,
+                                                             2)).ToList();
+
+                if (theMyResultsWith3ofLetter.Count() > 0)
+                {
+                    theReturn = theReturn.Concat(SimpleVTByIndex(aTemplate,
+                                                                 aClonedTile,
+                                                                 aResult,
+                                                                 aSearchType,
+                                                                 theMyResultsWith3ofLetter,
+                                                                 theLetter,
+                                                                 3)).ToList();
+                }
+            }
+            
+            return theReturn;
+        }
+
+        private List<SearchResults_t>
+        //---------------------------------------------------------------------
         SimpleHZByIndex
             (
             Template_t aTemplate,
@@ -561,6 +697,70 @@ namespace WordsWithFriendsProject
                 if (!isValid ||
                     aTemplate.StringOnRight &&
                     !(theLastIndexInWord <= aTemplate.Size - aTemplate.RightStringSize - 1 - 1)) continue;
+
+                SearchResult_t theFinallyGotHere = new SearchResult_t(theResult);
+
+                theReturn.Add(new SearchResults_t(new List<SearchResult_t> { theFinallyGotHere, aResult }));
+            }
+            return theReturn;
+        }
+
+        private List<SearchResults_t>
+        //---------------------------------------------------------------------
+        SimpleVTByIndex
+            (
+            Template_t aTemplate,
+            Tile_t aClonedTile,
+            SearchResult_t aResult,
+            SearchType_t aSearchType,
+            List<LetterWord_t> aMyResults,
+            Letter_t aLetter,
+            int aN
+            )
+        {
+            List<SearchResults_t> theReturn = new List<SearchResults_t>();
+
+            foreach (var Result in aMyResults)
+            {
+                string theWord = Result.Word();
+                int theLetterIndex = IndexOfNChar(theWord, aLetter.Letter, aN);
+                int theLettersBefore = theLetterIndex;
+                int theLettersAfter = theWord.Count() - theLettersBefore - 1;
+
+                int theRootIndex = aTemplate.RootIndex;
+
+                int theStartIndex = theRootIndex - theLettersBefore;
+
+                if (theStartIndex < 0 ||
+                    (aTemplate.StringOnTop() &&
+                    theStartIndex - (aTemplate.TopStringSize() + 1) < 0)) continue;
+
+                List<Tile_t> theResult = new List<Tile_t>();
+                int theLastIndexInWord = 0;
+
+                bool isValid = true;
+                if (theStartIndex + theWord.Count() <= aTemplate.Size)
+                {
+                    for (int i = 0; i < theWord.Count(); ++i)
+                    {
+                        theLastIndexInWord = theStartIndex + i;
+                        var theTile = (Tile_t)aTemplate.At(theLastIndexInWord).Clone();
+                        if (!(theTile.SearchType == SearchType_t.eBlank ||
+                            (theTile.SearchType == aSearchType &&
+                            theTile.Y == aClonedTile.Y))) isValid = false;
+                        theTile.Letter = Result.At(i).Letter;
+                        theTile.IsWild = Result.At(i).IsWild;
+                        theResult.Add(theTile);
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (!isValid ||
+                    aTemplate.StringOnBottom() &&
+                    !(theLastIndexInWord <= aTemplate.Size - aTemplate.BottomStringSize() - 1 - 1)) continue;
 
                 SearchResult_t theFinallyGotHere = new SearchResult_t(theResult);
 
@@ -698,44 +898,43 @@ namespace WordsWithFriendsProject
             {
                 theLetterWords.Add(new LetterWord_t(result, new List<char>(theLetters)));
             }
-            /*
 
             foreach (var theResult in theLetterWords)
             {
                 // get index of first letter in string
-                var theLetter = new Letter_t(mBoard.mBoard[aTile.X, aTile.Y + 1].Letter,
-                                              mBoard.mBoard[aTile.X, aTile.Y + 1].IsWild);
+                var theLetter = new Letter_t(mBoard.mBoard[aTile.X + 1, aTile.Y].Letter,
+                                              mBoard.mBoard[aTile.X + 1, aTile.Y].IsWild);
                 string theWord = theResult.Word();
 
-                if (String.Compare(theWord, theSubstringDown, true) == 0) continue;
+                if (String.Compare(theWord, theSubstringRight, true) == 0) continue;
                 int theLetterIndex = IndexOfChar(theWord, theLetter.Letter);
                 int theLettersBefore = theLetterIndex - 1;
                 int theLettersAfter = theWord.Count() - theLettersBefore - 1;
 
-                int theRootIndex = aVertTemplate.RootIndex;
+                int theRootIndex = aTemplate.RootIndex;
 
                 int theStartIndex = theRootIndex - theLettersBefore;
 
                 if (theStartIndex < 0 ||
-                    (aVertTemplate.StringOnTop() &&
-                    theStartIndex - (aVertTemplate.TopStringSize() + 1) < 0)) continue;
+                    (aTemplate.StringOnLeft &&
+                    theStartIndex - (aTemplate.LeftStringSize + 1) < 0)) continue;
 
                 List<Tile_t> theResultList = new List<Tile_t>();
                 int theLastIndexInWord = 0;
 
                 bool isValid = true;
-                if (theStartIndex + theWord.Count() <= aVertTemplate.Size)
+                if (theStartIndex + theWord.Count() <= aTemplate.Size)
                 {
                     for (int i = 0; i < theWord.Count(); ++i)
                     {
                         theLastIndexInWord = theStartIndex + i;
-                        var theTile = (Tile_t)aVertTemplate.At(theLastIndexInWord).Clone();
+                        var theTile = (Tile_t)aTemplate.At(theLastIndexInWord).Clone();
                         if (!(theTile.SearchType == SearchType_t.eBlank ||
                             theTile.SearchType == SearchType_t.ePlayed ||
-                            (theTile.SearchType == SearchType_t.eBelow &&
-                            theTile.Y == aTile.Y) ||
-                            (theTile.SearchType == SearchType_t.eAbove &&
-                            aTile.Y + 1 + aVertTemplate.CenterStringSize == theTile.Y))) isValid = false;
+                            (theTile.SearchType == SearchType_t.eRight &&
+                            theTile.X == aTile.X) ||
+                            (theTile.SearchType == SearchType_t.eLeft &&
+                            aTile.X + 1 + aTemplate.CenterStringSize == theTile.X))) isValid = false;
 
                         theTile.Letter = theResult.At(i).Letter;
                         theTile.IsWild = theResult.At(i).IsWild;
@@ -748,14 +947,114 @@ namespace WordsWithFriendsProject
                 }
 
                 if (!isValid ||
-                    aVertTemplate.StringOnBottom() &&
-                    !(theLastIndexInWord <= aVertTemplate.Size - aVertTemplate.BottomStringSize() - 1 - 1)) continue;
+                    aTemplate.StringOnRight &&
+                    !(theLastIndexInWord <= aTemplate.Size - aTemplate.RightStringSize - 1 - 1)) continue;
 
                 SearchResult_t theFinallyGotHere = new SearchResult_t(theResultList);
 
                 theReturn.Add(new SearchResults_t(new List<SearchResult_t> { theFinallyGotHere }));
             }
-            */
+            
+            return theReturn;
+        }
+
+        private List<SearchResults_t>
+        //---------------------------------------------------------------------    
+        SimpleHorizontalLeftResults
+           (
+           Tile_t aTile,
+           Template_t aTemplate
+           )
+        {
+            var theReturn = new List<SearchResults_t>();
+            string theSubstringLeft = SubstringLeft(aTile);
+            
+            var theWords = from words in mDictionary.WordList
+                           where words.Length <= aTemplate.MaxWordLength &&
+                           words.Contains(theSubstringLeft)
+                           select words;
+
+            List<string> theWordsList = new List<string>(theWords);
+
+            var theLetters = new List<char>();
+            foreach (var letter in mLetters)
+            {
+                theLetters.Add(letter.Letter);
+            }
+
+            mHash.Clear();
+            SubStringsWithMyLetters(theWordsList, theSubstringLeft, theLetters);
+
+            var theResultsWithSubStrings = mHash.ToList();
+
+            List<LetterWord_t> theLetterWords = new List<LetterWord_t>();
+
+            foreach (var result in theResultsWithSubStrings)
+            {
+                theLetterWords.Add(new LetterWord_t(result, new List<char>(theLetters)));
+            }
+
+            foreach (var theResult in theLetterWords)
+            {
+                // get index of first letter in string
+                var theLetterAtLeft = new Letter_t(mBoard.mBoard[aTile.X - aTemplate.CenterStringSize, aTile.Y].Letter,
+                                                   mBoard.mBoard[aTile.X - aTemplate.CenterStringSize, aTile.Y].IsWild);
+
+                string theWord = theResult.Word();
+
+                if (String.Compare(theWord, theSubstringLeft, true) == 0) continue;
+                int theLetterIndex = IndexOfChar(theWord, theLetterAtLeft.Letter);
+                int theLettersBefore = theLetterIndex - 1;
+                int theLettersAfter = theWord.Count() - theLettersBefore - 1;
+
+                int theRootIndex = aTemplate.RootIndex;
+
+                int theStartIndex = theRootIndex - theLettersBefore;
+
+                if (theStartIndex < 0 ||
+                    (aTemplate.StringOnLeft &&
+                    theStartIndex - (aTemplate.LeftStringSize + 1) < 0)) continue;
+
+                List<Tile_t> theResultList = new List<Tile_t>();
+                int theLastIndexInWord = 0;
+
+                bool isValid = true;
+                if (theStartIndex + theWord.Count() <= aTemplate.Size)
+                {
+                    for (int i = 0; i < theWord.Count(); ++i)
+                    {
+                        theLastIndexInWord = theStartIndex + i;
+                        var theTile = (Tile_t)aTemplate.At(theLastIndexInWord).Clone();
+                        if (!(theTile.SearchType == SearchType_t.eBlank ||
+                            theTile.SearchType == SearchType_t.ePlayed ||
+                            (theTile.SearchType == SearchType_t.eLeft &&
+                            theTile.X == aTile.X) ||
+                            (theTile.SearchType == SearchType_t.eRight &&
+                            aTile.X - 1 - aTemplate.CenterStringSize == theTile.X))) isValid = false;
+
+                        if (theTile.SearchType == SearchType_t.ePlayed &&
+                            Char.ToLower(theTile.Letter) != theResult.At(i).Letter) isValid = false;
+
+                        theTile.Letter = theResult.At(i).Letter;
+                        theTile.IsWild = theResult.At(i).IsWild;
+                        theResultList.Add(theTile);
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+                
+                if (!isValid ||
+                    aTemplate.StringOnRight &&
+                    !(theLastIndexInWord <= aTemplate.Size - aTemplate.RightStringSize - 1 - 1)) continue;
+
+                SearchResult_t theFinallyGotHere = new SearchResult_t(theResultList);
+
+                theReturn.Add(new SearchResults_t(new List<SearchResult_t> { theFinallyGotHere }));
+            }
+
             return theReturn;
         }
 
@@ -1053,7 +1352,7 @@ namespace WordsWithFriendsProject
 
             var theNewX = aTile.X - 1;
 
-            while (theNewX > 0)
+            while (theNewX >= 0)
             {
                 Tile_t theNextTile = mBoard.mBoard[theNewX, aTile.Y];
                 if (theNextTile.Letter == ' ')
@@ -1198,6 +1497,126 @@ namespace WordsWithFriendsProject
                     }
                 }
             }
+            return theMatchingLetters;
+        }
+
+        private List<Letter_t>
+        //---------------------------------------------------------------------
+        LettersForRightWords
+            (
+            Tile_t aTile,
+            string aSubstring
+            )
+        {
+            var theMatchingLetters = new List<Letter_t>();
+
+            if (aTile.X == scBoardDimension - 1)
+            {
+                return theMatchingLetters;
+            }
+            string theMatchWord = System.String.Empty;
+            int theWordLength = aSubstring.Length + 1;
+
+            var theWords = from words in mDictionary.WordList
+                           where words.Length == theWordLength
+                           select words;
+
+            foreach (var theLetter in mLetters)
+            {
+
+                if (theLetter.IsWild)
+                {
+                    for (int i = 0; i < mAlphabet.Count(); ++i)
+                    {
+
+                        theMatchWord = mAlphabet[i] + aSubstring;
+
+                        foreach (var word in theWords)
+                        {
+                            if (string.Compare(word, theMatchWord, true) == 0)
+                            {
+                                theMatchingLetters.Add(new Letter_t(mAlphabet[i], true));
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    theMatchWord = theLetter.Letter + aSubstring;
+
+                    var theStandardWords = from words in theWords
+                                           where words[0] == theLetter.Letter
+                                           select words;
+                    foreach (var theStandardWord in theStandardWords)
+                    {
+                        if (string.Compare(theStandardWord, theMatchWord, true) == 0)
+                        {
+                            theMatchingLetters.Add((Letter_t)theLetter.Clone());
+                        }
+                    }
+                }
+            }
+            
+            return theMatchingLetters;
+        }
+
+        private List<Letter_t>
+        //---------------------------------------------------------------------
+        LettersForLeftWords
+            (
+            Tile_t aTile,
+            string aSubstring
+            )
+        {
+            var theMatchingLetters = new List<Letter_t>();
+
+            if (aTile.X == 0)
+            {
+                return theMatchingLetters;
+            }
+            string theMatchWord = System.String.Empty;
+            int theWordLength = aSubstring.Length + 1;
+
+            var theWords = from words in mDictionary.WordList
+                           where words.Length == theWordLength 
+                           select words;
+
+            foreach (var theLetter in mLetters)
+            {
+                if (theLetter.IsWild)
+                {
+                    for (int i = 0; i < mAlphabet.Count(); ++i)
+                    {
+                        theMatchWord = aSubstring + mAlphabet[i];
+
+                        foreach (var word in theWords)
+                        {
+                            if (string.Compare(word, theMatchWord, true) == 0)
+                            {
+                                theMatchingLetters.Add(new Letter_t(mAlphabet[i], true));
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    theMatchWord = aSubstring + theLetter.Letter;
+
+                    var theStandardWords = from words in theWords
+                                           where words[theMatchWord.Length -1] == theLetter.Letter
+                                           select words;
+                    foreach (var theStandardWord in theStandardWords)
+                    {
+                        if (string.Compare(theStandardWord, theMatchWord, true) == 0)
+                        {
+                            theMatchingLetters.Add((Letter_t)theLetter.Clone());
+                        }
+                    }
+                }
+            }
+
             return theMatchingLetters;
         }
 
