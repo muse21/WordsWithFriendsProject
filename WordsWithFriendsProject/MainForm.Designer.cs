@@ -28,6 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.TableLayoutPanel theGameLoadTableLayout;
+            System.Windows.Forms.TableLayoutPanel theGamesButtonLayout;
+            this.mGamesListBox = new System.Windows.Forms.ListBox();
+            this.mDeleteGameButton = new System.Windows.Forms.Button();
+            this.mNewGameButton = new System.Windows.Forms.Button();
+            this.mGameNameTextBox = new System.Windows.Forms.TextBox();
+            this.mSaveButton = new System.Windows.Forms.Button();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mFirstWordButton = new System.Windows.Forms.Button();
             this.mDoubleFirstWordCB = new System.Windows.Forms.CheckBox();
@@ -302,6 +309,10 @@
             this.theGamesGroupBox = new System.Windows.Forms.GroupBox();
             this.theLoadButtonsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.mLoadGameButton = new System.Windows.Forms.Button();
+            theGameLoadTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            theGamesButtonLayout = new System.Windows.Forms.TableLayoutPanel();
+            theGameLoadTableLayout.SuspendLayout();
+            theGamesButtonLayout.SuspendLayout();
             this.MainTableLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -321,8 +332,99 @@
             this.theGameBoardLayoutPanel.SuspendLayout();
             this.theGameBoardButtonTableLayout.SuspendLayout();
             this.theLoadTableLayout.SuspendLayout();
+            this.theGamesGroupBox.SuspendLayout();
             this.theLoadButtonsTableLayout.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // theGameLoadTableLayout
+            // 
+            theGameLoadTableLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            theGameLoadTableLayout.AutoSize = true;
+            theGameLoadTableLayout.ColumnCount = 1;
+            theGameLoadTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            theGameLoadTableLayout.Controls.Add(this.mGamesListBox, 0, 0);
+            theGameLoadTableLayout.Controls.Add(theGamesButtonLayout, 0, 1);
+            theGameLoadTableLayout.Location = new System.Drawing.Point(3, 19);
+            theGameLoadTableLayout.Name = "theGameLoadTableLayout";
+            theGameLoadTableLayout.RowCount = 2;
+            theGameLoadTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            theGameLoadTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            theGameLoadTableLayout.Size = new System.Drawing.Size(188, 277);
+            theGameLoadTableLayout.TabIndex = 0;
+            // 
+            // mGamesListBox
+            // 
+            this.mGamesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mGamesListBox.FormattingEnabled = true;
+            this.mGamesListBox.Location = new System.Drawing.Point(3, 3);
+            this.mGamesListBox.Name = "mGamesListBox";
+            this.mGamesListBox.Size = new System.Drawing.Size(182, 199);
+            this.mGamesListBox.TabIndex = 0;
+            // 
+            // theGamesButtonLayout
+            // 
+            theGamesButtonLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            theGamesButtonLayout.AutoSize = true;
+            theGamesButtonLayout.ColumnCount = 2;
+            theGamesButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            theGamesButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            theGamesButtonLayout.Controls.Add(this.mDeleteGameButton, 1, 0);
+            theGamesButtonLayout.Controls.Add(this.mNewGameButton, 1, 1);
+            theGamesButtonLayout.Controls.Add(this.mGameNameTextBox, 0, 1);
+            theGamesButtonLayout.Controls.Add(this.mSaveButton, 0, 0);
+            theGamesButtonLayout.Location = new System.Drawing.Point(3, 216);
+            theGamesButtonLayout.Name = "theGamesButtonLayout";
+            theGamesButtonLayout.RowCount = 2;
+            theGamesButtonLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            theGamesButtonLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            theGamesButtonLayout.Size = new System.Drawing.Size(182, 58);
+            theGamesButtonLayout.TabIndex = 1;
+            // 
+            // mDeleteGameButton
+            // 
+            this.mDeleteGameButton.Location = new System.Drawing.Point(94, 3);
+            this.mDeleteGameButton.Name = "mDeleteGameButton";
+            this.mDeleteGameButton.Size = new System.Drawing.Size(75, 23);
+            this.mDeleteGameButton.TabIndex = 1;
+            this.mDeleteGameButton.Text = "Delete";
+            this.mDeleteGameButton.UseVisualStyleBackColor = true;
+            this.mDeleteGameButton.Click += new System.EventHandler(this.HandleDeleteGameClick);
+            // 
+            // mNewGameButton
+            // 
+            this.mNewGameButton.Location = new System.Drawing.Point(94, 32);
+            this.mNewGameButton.Name = "mNewGameButton";
+            this.mNewGameButton.Size = new System.Drawing.Size(75, 23);
+            this.mNewGameButton.TabIndex = 3;
+            this.mNewGameButton.Text = "New Game";
+            this.mNewGameButton.UseVisualStyleBackColor = true;
+            this.mNewGameButton.Click += new System.EventHandler(this.HandleNewGameClicked);
+            // 
+            // mGameNameTextBox
+            // 
+            this.mGameNameTextBox.Location = new System.Drawing.Point(3, 32);
+            this.mGameNameTextBox.MaxLength = 10;
+            this.mGameNameTextBox.Name = "mGameNameTextBox";
+            this.mGameNameTextBox.Size = new System.Drawing.Size(85, 20);
+            this.mGameNameTextBox.TabIndex = 2;
+            this.mGameNameTextBox.TextChanged += new System.EventHandler(this.HandleGameNameTextChanged);
+            this.mGameNameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleGameNameTextBoxKeyPress);
+            // 
+            // mSaveButton
+            // 
+            this.mSaveButton.Location = new System.Drawing.Point(3, 3);
+            this.mSaveButton.Name = "mSaveButton";
+            this.mSaveButton.Size = new System.Drawing.Size(75, 23);
+            this.mSaveButton.TabIndex = 0;
+            this.mSaveButton.Text = "Save";
+            this.mSaveButton.UseVisualStyleBackColor = true;
+            this.mSaveButton.Click += new System.EventHandler(this.HandleSaveButtonClick);
             // 
             // MainTableLayoutPanel
             // 
@@ -3427,9 +3529,10 @@
             // 
             // theGamesGroupBox
             // 
+            this.theGamesGroupBox.Controls.Add(theGameLoadTableLayout);
             this.theGamesGroupBox.Location = new System.Drawing.Point(3, 3);
             this.theGamesGroupBox.Name = "theGamesGroupBox";
-            this.theGamesGroupBox.Size = new System.Drawing.Size(194, 302);
+            this.theGamesGroupBox.Size = new System.Drawing.Size(197, 302);
             this.theGamesGroupBox.TabIndex = 0;
             this.theGamesGroupBox.TabStop = false;
             this.theGamesGroupBox.Text = "All Games";
@@ -3466,6 +3569,11 @@
             this.Controls.Add(this.theMainLayoutPanel);
             this.Name = "MainForm";
             this.Text = "WWF Helper";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HandleFormClosing);
+            theGameLoadTableLayout.ResumeLayout(false);
+            theGameLoadTableLayout.PerformLayout();
+            theGamesButtonLayout.ResumeLayout(false);
+            theGamesButtonLayout.PerformLayout();
             this.MainTableLayoutPanel.ResumeLayout(false);
             this.MainTableLayoutPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -3494,6 +3602,8 @@
             this.theGameBoardLayoutPanel.PerformLayout();
             this.theGameBoardButtonTableLayout.ResumeLayout(false);
             this.theLoadTableLayout.ResumeLayout(false);
+            this.theGamesGroupBox.ResumeLayout(false);
+            this.theGamesGroupBox.PerformLayout();
             this.theLoadButtonsTableLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -3775,6 +3885,11 @@
         private System.Windows.Forms.TableLayoutPanel theLoadButtonsTableLayout;
         private System.Windows.Forms.Button mLoadGameButton;
         private System.Windows.Forms.Button mSearchButton;
+        private System.Windows.Forms.ListBox mGamesListBox;
+        private System.Windows.Forms.Button mDeleteGameButton;
+        private System.Windows.Forms.Button mNewGameButton;
+        private System.Windows.Forms.TextBox mGameNameTextBox;
+        private System.Windows.Forms.Button mSaveButton;
     }
 }
 

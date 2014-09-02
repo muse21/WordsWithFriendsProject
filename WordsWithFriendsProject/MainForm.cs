@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace WordsWithFriendsProject
 {
@@ -29,6 +30,8 @@ namespace WordsWithFriendsProject
             mMyWords = new MyWords_t(mDictionary);
             mGameBoard = new GameBoard_t();
             mSearcher = new Searcher_t(mDictionary);
+            mGames = XmlService_t.GetGames();
+            LoadGames();
 
             mJustMySubStringsCB.Checked = true;
         }
@@ -36,6 +39,22 @@ namespace WordsWithFriendsProject
         //---------------------------------------------------------------------
         // private functions
         //---------------------------------------------------------------------
+       
+        private void 
+        //---------------------------------------------------------------------
+        LoadGames
+            (
+            )
+        {
+            mGamesListBox.Items.Clear();
+            if (mGames.Count > 0)
+            {
+                foreach (string theKey in mGames.Keys)
+                {
+                    mGamesListBox.Items.Add(theKey);
+                }
+            }
+        }
 
         private void
         //---------------------------------------------------------------------
@@ -486,8 +505,25 @@ namespace WordsWithFriendsProject
             mN11.Clear(); mN12.Clear(); mN13.Clear(); mN14.Clear(); mN15.Clear();
 
             mO1.Clear(); mO2.Clear(); mO3.Clear(); mO4.Clear(); mO5.Clear();
-            mO6.Clear(); mO7.Clear(); mO8.Clear(); mO9.Clear(); mM10.Clear();
-            mM11.Clear(); mM12.Clear(); mM13.Clear(); mM14.Clear(); mM15.Clear();
+            mO6.Clear(); mO7.Clear(); mO8.Clear(); mO9.Clear(); mO10.Clear();
+            mO11.Clear(); mO12.Clear(); mO13.Clear(); mO14.Clear(); mO15.Clear();
+        }
+
+        private void
+        //---------------------------------------------------------------------
+        CopyGameBoardValues
+            (
+            GameBoard_t aSourceBoard,
+            GameBoard_t aDestinationBoard
+            )
+        {
+            for( int y = 0; y < 15; ++y)
+            {
+                for( int x = 0; x< 15; ++x  )
+                {
+                    aDestinationBoard.mBoard[x, y].Letter = aSourceBoard.mBoard[x, y].Letter;
+                }
+            }
         }
         
         //---------------------------------------------------------------------
@@ -602,13 +638,23 @@ namespace WordsWithFriendsProject
             if (Letters.Count() > 0)
             {
                 var theSearchWords = mSearcher.SearchBoard(Letters, mGameBoard);
-                var theResults = mScorer.ScoreBoardResults(theSearchWords);
-                theResults.Sort();
-                theResults.Reverse();
+                List<ScoreResult_t> theResults = mScorer.ScoreBoardResults(theSearchWords);
 
-                foreach (var theResult in theResults)
+                var theSortedResults = (from aResult in theResults
+                                       orderby aResult.Score descending
+                                       select aResult).Take(25);
+
+
+                foreach (var theResult in theSortedResults)
                 {
-                    mResultsBox.Items.Add(theResult);
+                    string theFinalResult = theResult.Score +
+                                            " - " +
+                                            theResult.Word +
+                                            " - " +
+                                            theResult.X +
+                                            " " +
+                                            theResult.Y;
+                    mResultsBox.Items.Add(theFinalResult);
 
                 }
             }
@@ -627,7 +673,100 @@ namespace WordsWithFriendsProject
             EventArgs e
             )
         {
+            if (mGamesListBox.SelectedItem == null)
+            {
+                return;
+            }
+            if (mGames.ContainsKey((string)mGamesListBox.SelectedItem))
+            {
+                CopyGameBoardValues(mGames[(string)mGamesListBox.SelectedItem], mGameBoard );
+            }
+
             FillLettersFromGameBoard();
+
+            // TODO:  calculate letters remaining when that feature is added
+        }
+
+        private void
+        //---------------------------------------------------------------------
+        HandleGameNameTextChanged
+            (
+            object sender, 
+            EventArgs e
+            )
+        {
+            if ((sender as TextBox).MaxLength == (sender as TextBox).TextLength) SendKeys.Send("{TAB}");
+        }
+
+        private void
+        //---------------------------------------------------------------------
+        HandleGameNameTextBoxKeyPress
+            (
+            object sender,
+            KeyPressEventArgs e
+            )
+        {
+            if( e.KeyChar == Convert.ToChar( Keys.Return ) )
+            {
+                SendKeys.Send("{TAB}");
+            }
+        }
+
+        private void 
+        //---------------------------------------------------------------------
+        HandleSaveButtonClick
+            (
+            object sender,
+            EventArgs e
+            )
+        {
+            if(mGamesListBox.SelectedItem == null ||
+               !mGames.ContainsKey((string)mGamesListBox.SelectedItem) )
+            {
+                return;
+            }
+            CopyGameBoardValues(mGameBoard, mGames[(string)mGamesListBox.SelectedItem]);
+        }
+
+        private void
+        //---------------------------------------------------------------------
+        HandleDeleteGameClick
+            (
+            object sender, 
+            EventArgs e
+            )
+        {
+            if( mGamesListBox.SelectedItem == null)
+            {
+                return;
+            }
+            if(mGames.ContainsKey((string)mGamesListBox.SelectedItem))
+            {
+                mGames.Remove((string)mGamesListBox.SelectedItem);
+            }
+            LoadGames();
+        }
+        
+        private void
+        //---------------------------------------------------------------------
+        HandleNewGameClicked
+            (
+            object sender,
+            EventArgs e
+            )
+        {
+            string theKey = mGameNameTextBox.Text;
+            if (theKey == ""  ||
+                mGames.ContainsKey(theKey) )
+            {
+                return;
+            }
+            GameBoard_t theValue = new GameBoard_t();
+            CopyGameBoardValues(mGameBoard, theValue);
+
+            mGames.Add(theKey, theValue);
+            mGamesListBox.Items.Add(mGameNameTextBox.Text);
+            mGameNameTextBox.Text = "";
         }
 
         private void
@@ -639,6 +778,17 @@ namespace WordsWithFriendsProject
             )
         {
             if ((sender as TextBox).MaxLength == (sender as TextBox).TextLength) SendKeys.Send("{TAB}");
+        }
+
+        private void 
+        //---------------------------------------------------------------------
+        HandleFormClosing
+            (
+            object sender, 
+            FormClosingEventArgs e
+            )
+        {
+            XmlService_t.SaveGames(mGames);
         }
 
         //---------------------------------------------------------------------
@@ -653,6 +803,7 @@ namespace WordsWithFriendsProject
         private MyWords_t mMyWords;
         private GameBoard_t mGameBoard;
         private Searcher_t mSearcher;
+        private Dictionary<string, GameBoard_t> mGames;
         const char scDefaultChar = '_';
 
         //---------------------------------------------------------------------
@@ -1809,5 +1960,9 @@ namespace WordsWithFriendsProject
         {
             GameBoardTileTextChanged(sender, 14, 14);
         }
+
+        
+
+
     }
 }

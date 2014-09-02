@@ -7,11 +7,11 @@ using System.Text;
 
 namespace WordsWithFriendsProject
 {
-
-    class GameBoard_t
+    [Serializable]
+    public class GameBoard_t
     {
         //---------------------------------------------------------------------
-        public GameBoard_t 
+        public GameBoard_t
             (
             )
         {
@@ -19,7 +19,7 @@ namespace WordsWithFriendsProject
             InitilizeGameBoard();
             SetTileBonusValues();
         }
-
+    
         //---------------------------------------------------------------------
         // PUBLIC METHODS
         //---------------------------------------------------------------------
@@ -321,6 +321,6 @@ namespace WordsWithFriendsProject
         // Member Data
         //---------------------------------------------------------------------
         public Tile_t[ , ] mBoard;
-        private const int scBoardDimension = 15;
+        public const int scBoardDimension = 15;
     }
 }

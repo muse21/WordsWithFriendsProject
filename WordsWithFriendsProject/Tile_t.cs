@@ -36,7 +36,8 @@ namespace WordsWithFriendsProject
         eDirty
     };
 
-    class Tile_t : ICloneable
+    [Serializable]
+    public class Tile_t : ICloneable
     {
         //---------------------------------------------------------------------
         public Tile_t
@@ -51,6 +52,14 @@ namespace WordsWithFriendsProject
             Bonus = TileBonus_t.eNone;
             SearchType = SearchType_t.eBlank;
             IsWild = false;
+        }
+
+        // for serialization
+        public Tile_t
+        //---------------------------------------------------------------------
+            (
+            )
+        {
         }
 
         public object
@@ -74,8 +83,8 @@ namespace WordsWithFriendsProject
         //---------------------------------------------------------------------
         // Member Data
         //---------------------------------------------------------------------
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int X { get; set; }
+        public int Y { get; set; }
         public char Letter { get; set; }
         public TileBonus_t Bonus { get; set; }
         public SearchType_t SearchType;

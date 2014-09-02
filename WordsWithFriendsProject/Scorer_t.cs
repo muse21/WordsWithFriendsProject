@@ -18,14 +18,14 @@ namespace WordsWithFriendsProject
             mScoreTable = new ScoreTable_t();
         }
 
-        public List<String>
+        public List<ScoreResult_t>
         //---------------------------------------------------------------------
         ScoreBoardResults
             (
             List<SearchResults_t> aSearchResults
             )
         {
-            var theScoredResultStrings = new HashSet<string>();
+            var theScoredResults = new List<ScoreResult_t>();
 
             foreach (var theResults in aSearchResults)
             {
@@ -39,18 +39,18 @@ namespace WordsWithFriendsProject
                 var theTile = theMainResult.Word.FirstOrDefault();
                 string theWord = System.String.Empty;
 
-                theWord += theScore + " - ";
-
                 foreach (var theLetter in theMainResult.Word)
                 {
                     theWord += System.Convert.ToString(Char.ToUpper(theLetter.Letter));
                 }
 
-                theWord += " - " + theTile.X + " " + theTile.Y;
 
-                theScoredResultStrings.Add(theWord);
+                theScoredResults.Add(new ScoreResult_t(theScore, 
+                                                       theWord,
+                                                       theTile.X,
+                                                       theTile.Y));
             }
-            return theScoredResultStrings.ToList();
+            return theScoredResults;
         }
 
         public int
